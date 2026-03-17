@@ -164,6 +164,9 @@ MonoBehaviour:
   Progress: 0.370554
   Speed: 85
   GizmoSize: 1
+  ProjectileIndex: 0
+  Projectiles:
+  - {fileID: 8500986119265324242, guid: c1b81f4f60da1e54b889c6dffb78de58, type: 3}
 --- !u!136 &100361045
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -828,6 +831,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b33cd9517b190045afa7639d069984c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  SpawnTimer:
+    Clamp: 0
+    EndTime: 3.7
+    Time: 0
   Index: 0
   Enemies:
   - {fileID: 7489360791686402338, guid: 55b5ee38543d5eb4884395e04a8f4ebf, type: 3}

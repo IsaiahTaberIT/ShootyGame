@@ -16,8 +16,13 @@ public class WorldBounds : MonoBehaviour
 
     public Surface PlayArea;
     public Surface ScreenSurface;
-
     public LayerMask PlaySurfaceLayer;
+
+
+
+
+
+
 
     [System.Serializable]
     public class Surface
@@ -69,8 +74,27 @@ public class WorldBounds : MonoBehaviour
             }
         }
 
- 
 
+        public float GetEastEdgeLength()
+        {
+            return Abs(NE.y - SE.y);
+        }
+
+
+        public float GetWestEdgeLength()
+        {
+            return Abs(NW.y - SW.y);
+        }
+
+        public float GetNorthEdgeLength()
+        {
+            return Abs(NW.x - NE.x);
+        }
+
+        public float GetSouthEdgeLength()
+        {
+            return Abs(SW.x - SE.x);
+        }
 
         public Vector3 NormalizedPos(Vector3 Pos)
         {
@@ -82,6 +106,8 @@ public class WorldBounds : MonoBehaviour
             float halfWidth = Lerp(Abs(NW.x) + Abs(NE.x), Abs(SW.x) + Abs(SE.x), yNormal) / 2f;
             float x = InverseLerp(halfWidth, -halfWidth, Pos.x);
 
+            x = Clamp01(x);
+            yNormal = Clamp01(yNormal);
 
             return new Vector3(x, yNormal, Pos.z);
         }
@@ -190,10 +216,10 @@ public class WorldBounds : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+  //  void Update()
+  //  {
         
-    }
+  //  }
 
     [ExecuteAlways]
     private void OnDrawGizmosSelected()

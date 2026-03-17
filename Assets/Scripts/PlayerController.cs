@@ -3,33 +3,35 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+
+
+
+
+
     public GameObject TestSphere;
 
     public float Health = 100;
     public bool InEditor = true;
     public float Direction = 0;
-
-
-
-
     public Vector3 StartPoint = Vector3.zero;
     public Vector3 EndPoint = Vector3.zero;
     public Vector3 TargetPoint = Vector3.zero;
-
     public Vector3 ViewMousePos = Vector3.zero;
-
     public Vector3 WorldMousePos = Vector3.zero;
 
     // public float InterpolationSpeed = 1;
     //public float MinInterpolationSpeed = 0.1f;
 
     public Transform PlayerTransform;
-
     public float Progress;
-
     [Min(0.01f)] public float Speed;
     private float BaseSpeed = 100f;
     public float GizmoSize;
+
+    public int ProjectileIndex = 0;
+    public Projectile[] Projectiles = new Projectile[0];
+
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -93,7 +95,14 @@ public class PlayerController : MonoBehaviour
 
 
 
-      //  WorldMousePos = ;
+        //  WorldMousePos = ;
+
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Shoot();
+
+        }
 
         if (Input.GetKey(KeyCode.D))
         {
@@ -124,6 +133,37 @@ public class PlayerController : MonoBehaviour
             Lose(); 
         }
     }
+
+    public void Shoot()
+    {
+        if (Projectiles[ProjectileIndex] == null)
+        {
+            return;
+        }
+
+
+
+
+        Vector3 spawnPos = transform.position;
+
+        WorldBounds.Surface playarea = GameController.Controller.Bounds.PlayArea;
+
+
+      //  spawnPos.x = Mathf.Lerp(playarea.SW.x, playarea.SE.x, Progress);
+
+
+        GameObject.Instantiate(Projectiles[ProjectileIndex].gameObject, spawnPos, Quaternion.identity);
+
+
+
+
+
+
+
+
+    }
+
+
 
 
 

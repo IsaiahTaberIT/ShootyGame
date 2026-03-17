@@ -462,8 +462,9 @@ public static class Logic
 
 
     [System.Serializable]
-    public struct Timer
+    public class Timer
     {
+        public Action OnLoop = () => { };
         public bool Clamp;
         public float EndTime;
         public float Time;
@@ -481,27 +482,23 @@ public static class Logic
                 if (EndTime != 0 && Time >= EndTime)
                 {
                     Time %= EndTime;
+                    OnLoop.Invoke();
                 }
             }
            
         }
+
+        public void Restart()
+        {
+            OnLoop.Invoke();
+            Time = 0;
+        }
+
+
       
         public void Step()
         {
-            Time += UnityEngine.Time.deltaTime;
-
-            if (Clamp)
-            {
-                Time = Mathf.Clamp(Time, 0, EndTime);
-            }
-            else
-            {
-                if (EndTime != 0 && Time >= EndTime)
-                {
-                    Time %= EndTime;
-                }
-            }
-           
+            Step(UnityEngine.Time.deltaTime);
         }
         public float GetRatio()
         {
@@ -520,6 +517,9 @@ public static class Logic
             EndTime = endTime;
             Time = time;
         }
+
+      
+
         public Timer(float endTime, float time)
         {
             Clamp = false;

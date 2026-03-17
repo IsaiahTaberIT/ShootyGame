@@ -1,16 +1,25 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static Logic;
 public class Spawner : MonoBehaviour
 {
+
+    public Timer SpawnTimer = new(0.5f,0,false);
     public int Index;
 
+
     [SerializeReference] public List<GameObject> Enemies = new List<GameObject>();
-    void Start()
+    void OnEnable()
     {
         GameController.Controller.Spawner_Ref = this;
+        SpawnTimer.OnLoop += Spawn;
     }
 
+    private void Update()
+    {
+        SpawnTimer.Step();
+    }
     [ContextMenu("Spawn")]
 
     public void Spawn()
@@ -32,7 +41,20 @@ public class Spawner : MonoBehaviour
         }
 
 
-        GameObject.Instantiate(Enemies[index]);
+        float xSpawnPos = UnityEngine.Random.Range(0f, 1f) + UnityEngine.Random.Range(0f, 1f);
+
+        xSpawnPos /= 2f;
+
+
+
+
+                Vector3 SpawnPos = GameController.Controller.Bounds.PlayArea.NormalToSurface(new Vector3(xSpawnPos, 0, 1));
+
+
+
+
+
+        GameObject.Instantiate(Enemies[index], SpawnPos, Quaternion.identity);
     }
 
 }
