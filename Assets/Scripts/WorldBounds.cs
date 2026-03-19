@@ -19,11 +19,6 @@ public class WorldBounds : MonoBehaviour
     public LayerMask PlaySurfaceLayer;
 
 
-
-
-
-
-
     [System.Serializable]
     public class Surface
     {

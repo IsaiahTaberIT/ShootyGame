@@ -6,7 +6,7 @@ public class Spawner : MonoBehaviour
 {
 
     public Timer SpawnTimer = new(0.5f,0,false);
-    public int Index;
+    public int SpawnIndex;
 
 
     [SerializeReference] public List<GameObject> Enemies = new List<GameObject>();
@@ -24,7 +24,13 @@ public class Spawner : MonoBehaviour
 
     public void Spawn()
     {
-        Spawn(Index);
+        SpawnIndex = UnityEngine.Random.Range(0, Enemies.Count);
+
+
+
+
+
+        Spawn(SpawnIndex);
     }
 
     public void Spawn(int index)
@@ -48,7 +54,7 @@ public class Spawner : MonoBehaviour
 
 
 
-                Vector3 SpawnPos = GameController.Controller.Bounds.PlayArea.NormalToSurface(new Vector3(xSpawnPos, 0, 1));
+         Vector3 SpawnPos = GameController.Controller.Bounds.PlayArea.NormalToSurface(new Vector3(xSpawnPos, 0, 1));
 
 
 

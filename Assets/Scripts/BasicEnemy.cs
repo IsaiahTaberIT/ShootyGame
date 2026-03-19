@@ -8,28 +8,20 @@ public class BasicEnemy : Enemy
     public float GroundSpeed;
     public float SelfDamageRatio = 0.1f;
     public float AttackThreshold = 0.05f;
+
+
+
     public void Move()
     {
         Vector3 ScreenPos = bounds.PlayArea.NormalizedPos(transform.position);
 
         ScreenPos.z = LockedZ;
 
-
-
-
-
-        NormailzedPosition = ScreenPos + Vector3.up * Time.deltaTime * GroundSpeed * 0.01f;
-
-        //  Debug.Log(ScreenPos);
-        //  Debug.Log(NormailzedPosition);
+        NormailzedPosition = ScreenPos + Vector3.up * Time.fixedDeltaTime * GroundSpeed * 0.01f;
 
         Vector3 NewWorldPos = bounds.PlayArea.NormalToSurface(NormailzedPosition);
-        // Debug.Log(transform.position);
-        // Debug.Log(NewWorldPos);
-
 
         SelfBody.MovePosition(NewWorldPos);
-
 
     }
 
@@ -40,10 +32,26 @@ public class BasicEnemy : Enemy
 
     }
 
+    public override void KnockBack(Vector3 direction, float magnitude)
+    {
+        direction.z = 0;
+        direction.Normalize();
+
+        Vector3 ScreenPos = bounds.PlayArea.NormalizedPos(transform.position);
+
+
+        NormailzedPosition = ScreenPos + direction * magnitude;
+
+        ScreenPos.z = LockedZ;
+
+        Vector3 NewWorldPos = bounds.PlayArea.NormalToSurface(NormailzedPosition);
+
+        SelfBody.AddForce(direction * magnitude * KnockbackEffectiveness);
+
+    }
 
     public override void Attack()
     {
-
 
         if (NormailzedPosition.y > 1f - AttackThreshold)
         {
@@ -52,13 +60,8 @@ public class BasicEnemy : Enemy
             Hurt(SelfDamageRatio * BaseHealth);
         }
 
-
     }
 
-
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void OnEnable()
     {
         SelfBody = GetComponent<Rigidbody>();
@@ -71,13 +74,13 @@ public class BasicEnemy : Enemy
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         Move();
 
-        AttackCooldown.Step();
+        AttackCooldown.Step(Time.fixedDeltaTime);
 
-        if(AttackCooldown.Ratio == 1)
+        if (AttackCooldown.Ratio == 1)
         {
             Attack();
             AttackCooldown.Time %= AttackCooldown.EndTime;

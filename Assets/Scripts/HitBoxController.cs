@@ -22,8 +22,11 @@ public class HitBoxController : MonoBehaviour
 
         if (collision.gameObject.TryGetComponent<HurtBoxController>(out HurtBoxController hurtbox))
         {
+            Projectile p = hurtbox.Projectile;
 
-            hurtbox.Projectile.ImpactEnemy(Enemy);
+            p.ImpactEnemy(this);
+
+
             
         }
     }

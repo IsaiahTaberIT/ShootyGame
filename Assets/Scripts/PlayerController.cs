@@ -1,12 +1,12 @@
 using UnityEngine;
-
+using UnityEngine.Events;
+using static Logic;
 
 public class PlayerController : MonoBehaviour
 {
+    public UnityEvent OnHurt;
 
-
-
-
+    public Timer ShootCooldown = new(0.1f,0,true);
 
     public GameObject TestSphere;
 
@@ -28,8 +28,8 @@ public class PlayerController : MonoBehaviour
     private float BaseSpeed = 100f;
     public float GizmoSize;
 
-    public int ProjectileIndex = 0;
-    public Projectile[] Projectiles = new Projectile[0];
+    public int WeaponIndex = 0;
+    public Projectile[] Weapons = new Projectile[0];
 
 
 
@@ -66,42 +66,13 @@ public class PlayerController : MonoBehaviour
     {
         Direction = 0f;
 
-        ViewMousePos = (Input.mousePosition / new Vector2(Screen.width,Screen.height));
-        ViewMousePos.y = 1f - ViewMousePos.y;
-        ViewMousePos = Input.mousePosition;
-        ViewMousePos.z = 30;
-
-        Camera c = Camera.main;
-
-        Vector3 o = c.transform.position;
-
-        RaycastHit hitinfo;
-
-        if (Physics.Raycast(o, c.ScreenToWorldPoint(ViewMousePos) - o, out hitinfo, 10000f, GameController.Controller.Bounds.PlaySurfaceLayer))
-        {
-            WorldMousePos = hitinfo.point;
-        }
-
-        if (TestSphere != null)
-        {
-            TestSphere.transform.position = WorldMousePos;
-        }
-
-
-
-
-
-
-
-
-
         //  WorldMousePos = ;
 
 
         if (Input.GetMouseButtonDown(0))
         {
+            ShootCooldown.Time = 0;
             Shoot();
-
         }
 
         if (Input.GetKey(KeyCode.D))
@@ -124,35 +95,59 @@ public class PlayerController : MonoBehaviour
         Debug.Log("You Lost");
     }
 
-    public void Damage(float value)
+    public void Hurt(float value)
     {
         Health -= value;
+        OnHurt.Invoke();
 
         if (Health <= 0)
         {
             Lose(); 
         }
     }
+    public void TryShoot()
+    {
+        ShootCooldown.Step();
+    }
+
+
+    void InstantiateProjectile()
+    {
+        Camera c = GameController.Controller.MainCamera_Ref;
+        Vector3 o = c.transform.position;
+        RaycastHit hitinfo;
+        Vector3 spawnPos = transform.position;
+        Vector3 dir = transform.position - o;
+        Vector3 correction = dir.normalized;
+        float correctionMag = 2f;
+
+
+        //because I can't be fucked to compute the vector math to get the properly aligned spawnpoint for the projectile
+        //I'M just gonna raycast from the camera through the player and use the intersection point with the background
+
+        if (Physics.Raycast(o, dir, out hitinfo, 10000f, GameController.Controller.Bounds.PlaySurfaceLayer))
+        {
+            spawnPos = hitinfo.point - correction * correctionMag;
+        }
+
+        WorldBounds.Surface playarea = GameController.Controller.Bounds.PlayArea;
+        GameObject.Instantiate(Weapons[WeaponIndex].gameObject, spawnPos, Quaternion.identity);
+    }
+
+
 
     public void Shoot()
     {
-        if (Projectiles[ProjectileIndex] == null)
+        if (WeaponIndex >= Weapons.Length & Weapons[WeaponIndex] == null)
         {
             return;
         }
 
+        if (Weapons[WeaponIndex] is Projectile)
+        {
+            InstantiateProjectile();
+        }
 
-
-
-        Vector3 spawnPos = transform.position;
-
-        WorldBounds.Surface playarea = GameController.Controller.Bounds.PlayArea;
-
-
-      //  spawnPos.x = Mathf.Lerp(playarea.SW.x, playarea.SE.x, Progress);
-
-
-        GameObject.Instantiate(Projectiles[ProjectileIndex].gameObject, spawnPos, Quaternion.identity);
 
 
 
@@ -163,9 +158,23 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private void FixedUpdate()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            TryShoot();
+        }
+    }
 
+    private void OnEnable()
+    {
+        ShootCooldown.OnLoop += Shoot;
+    }
 
-
+    private void OnDisable()
+    {
+        ShootCooldown.OnLoop -= Shoot;
+    }
 
     [ExecuteAlways]
     private void OnDrawGizmosSelected()

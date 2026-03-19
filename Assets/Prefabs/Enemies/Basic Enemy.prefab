@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1908548852753118617}
   - component: {fileID: 5604987507483970711}
   - component: {fileID: 8408157606679567674}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -216,12 +216,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e27bd49bcc3acba41b37e16b65fa7056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  PierceResistance: 1
   AttackCooldown:
     Clamp: 1
     EndTime: 0.25
     Time: 0
   State: 0
   bounds: {fileID: 0}
+  KnockbackEffectiveness: 1
   BaseHealth: 50
   Health: 0
   Damage: 10
@@ -241,8 +243,8 @@ Rigidbody:
   m_GameObject: {fileID: 7489360791686402338}
   serializedVersion: 5
   m_Mass: 1
-  m_LinearDamping: 10
-  m_AngularDamping: 10
+  m_LinearDamping: 2
+  m_AngularDamping: 2
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -266,7 +268,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7489360791686402338}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: a0867599f6342e54e956a56911026337, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

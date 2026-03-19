@@ -2,10 +2,56 @@ using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 public static class Logic
 {
+    static public string InsertOnCode(this string baseString,string code,string insertValue)
+    {
+        for (int i = 0; i < baseString.Length; i++)
+        {
+            for (int j = 0; j < code.Length; j++)
+            {
+                if (baseString[i + j] != code[j])
+                {
+                    break;
+                }
+
+                if (j != code.Length-1)
+                {
+                    continue;
+                }
+
+                string prefix = baseString.Substring(0, i);
+                string suffix = baseString.Substring(i + j + 1, baseString.Length - 1 - i - j);
+
+                Debug.Log(baseString);
+
+                baseString = prefix + insertValue + suffix;
+
+
+                Debug.Log("Code Found");
+
+
+
+                Debug.Log(baseString);
+
+                return baseString;
+            }
+
+         
+        }
+
+        Debug.Log("Code Not Found");
+
+        return baseString;
+
+    }
+
+
+
+
     public static Color RandomColor(bool RanAlpha = false, float alpha = 1)
     {
         int iterations = 3;
@@ -756,7 +802,16 @@ public static class Logic
         return DistanceToLine(Vector2.zero, V2Start - V1Start, V2End - V1End);
     }
 
-
+    /// <summary>
+    /// Distance to a line
+    /// </summary>
+    /// <param name="p"></param>
+    /// point you are trying to find the distance from
+    /// <param name="v1"></param>
+    /// start of line
+    /// <param name="v2"></param>
+    /// end of line
+    /// <returns></returns>
     static public float DistanceToLine(Vector2 p, Vector2 v1, Vector2 v2)
     {
         Vector2 a = v1 - v2;
@@ -787,6 +842,70 @@ public static class Logic
 
 
     }
+
+    /// <summary>
+    /// Distance to a ray
+    /// </summary>
+    /// <param name="p"></param>
+    /// point you are trying to find the distance from
+    /// <param name="v1"></param>
+    /// start of line
+    /// <param name="v2"></param>
+    /// end of line
+    /// <returns></returns>
+    static public float DistanceToRay(Vector2 p, Vector2 v1, Vector2 v2)
+    {
+        Vector2 riseOverRun = v2 - v1;
+
+        float rise = riseOverRun.y;
+        float run = riseOverRun.x;
+
+        return Mathf.Abs(run * p.y - rise * p.x) / (rise * rise + run * run);
+
+    }
+
+    /// <summary>
+    /// Distance to a ray
+    /// </summary>
+    /// <param name="p"></param>
+    /// point you are trying to find the distance from
+    /// <param name="v1"></param>
+    /// start of line
+    /// <param name="v2"></param>
+    /// end of line
+    /// <returns></returns>
+    static public float DistanceToRay(Vector2 p, Vector2 v1, Vector2 v2,bool isSigned)
+    {
+        if (!isSigned)
+        {
+            return DistanceToRay( p,  v1,  v2);
+        }
+
+        Vector2 riseOverRun = v2 - v1;
+
+        float rise = riseOverRun.y;
+        float run = riseOverRun.x;
+
+      
+        return (run * p.y - rise * p.x) / (rise * rise + run * run);
+
+    }
+
+
+
+    public static Vector2 NearestPointOnInfiniteLine(Vector2 v1, Vector2 v2, Vector2 p)
+    {
+        Vector2 lineDir = v2 - v1;
+        lineDir.Normalize();
+
+        Vector2 v = p - v1;
+
+        float d = Vector2.Dot(v, lineDir);
+        return v1 + lineDir * d;
+    }
+
+
+
     public static void DrawBox(Rect r, Vector2? OffsetPosition = null)
     {
 
