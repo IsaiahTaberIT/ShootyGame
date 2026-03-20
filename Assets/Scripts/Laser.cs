@@ -31,6 +31,15 @@ public class Laser : Weapon
 
 
     }
+
+
+    public override void ImpactEnemy(HitBoxController enemyHitBox)
+    {
+        enemyHitBox.Enemy.Hurt(Damage);
+        SpawnParticles();
+
+    
+    }
     /*
 transform.position = TargetDirection.normalized* transform.lossyScale.z;
 

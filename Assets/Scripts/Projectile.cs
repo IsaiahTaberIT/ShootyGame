@@ -114,7 +114,7 @@ public class Projectile : Weapon
     }
 
 
-    public void ImpactEnemy(HitBoxController enemyHitBox)
+    public override void ImpactEnemy(HitBoxController enemyHitBox)
     {
         if (enemyHitBox == LastEnemyHitBox && LastCollisionTime - Time.realtimeSinceStartup > SameEnemyHitCoolDown)
         {
@@ -144,7 +144,7 @@ public class Projectile : Weapon
     }
 
 
-    public void SpawnParticles()
+    public override void SpawnParticles()
     {
         if (ImpactParticles == null)
         {
@@ -152,11 +152,11 @@ public class Projectile : Weapon
         }
 
 
-       // Move(-Speed * Time.deltaTime);
+        // Move(-Speed * Time.deltaTime);
 
         Quaternion particleOrientation = Quaternion.LookRotation(-MovementDIr, Vector3.forward);
 
-        Instantiate(ImpactParticles,transform.position, particleOrientation);
+        Instantiate(ImpactParticles, transform.position, particleOrientation);
     }
 
 

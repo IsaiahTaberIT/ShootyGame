@@ -15,20 +15,6 @@ public class HitBoxController : MonoBehaviour
 
 
 
-    private void OnTriggerEnter2D(UnityEngine.Collider2D collision)
-    {
-        Debug.Log("Hit!");
-
-
-        if (collision.gameObject.TryGetComponent<HurtBoxController>(out HurtBoxController hurtbox))
-        {
-            Projectile p = hurtbox.Projectile;
-
-            p.ImpactEnemy(this);
-
-
-            
-        }
-    }
+   
 
 }

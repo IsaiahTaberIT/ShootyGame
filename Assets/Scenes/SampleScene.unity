@@ -184,7 +184,9 @@ MonoBehaviour:
   Speed: 85
   GizmoSize: 1
   WeaponIndex: 0
-  Weapons: []
+  Weapons:
+  - {fileID: 8500986119265324242, guid: c1b81f4f60da1e54b889c6dffb78de58, type: 3}
+  - {fileID: 3196649107732392414, guid: 7abbb8c678ba9064fa372663a76d7f70, type: 3}
 --- !u!136 &100361045
 CapsuleCollider:
   m_ObjectHideFlags: 0

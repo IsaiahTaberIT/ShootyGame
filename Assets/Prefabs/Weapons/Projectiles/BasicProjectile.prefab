@@ -196,6 +196,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f176102be8dd90b49ac855298a05d957, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
+  Damage: 10
+  AtSpawnParticles: {fileID: 5870186991916360612, guid: c4c231bdd241f3041996512d57fc5020, type: 3}
+  ImpactParticles: {fileID: 5291099011993489397, guid: 0e2ca9b8c78ba9d47ab4ea77befd7426, type: 3}
+  PiercePower: 0.5
   SameEnemyHitCoolDown: 0.2
   ContactFilter:
     useTriggers: 1
@@ -211,21 +215,17 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
-  AtSpawnParticles: {fileID: 5870186991916360612, guid: c4c231bdd241f3041996512d57fc5020, type: 3}
-  ImpactParticles: {fileID: 5291099011993489397, guid: 0e2ca9b8c78ba9d47ab4ea77befd7426, type: 3}
   HomingRegion: {fileID: 3402863798479093732}
   LifeSpan:
     Clamp: 0
     EndTime: 3
     Time: 0
   SelfBody: {fileID: 0}
-  HomingFactor: 641.7
-  HomingRadius: 41.1
+  HomingFactor: 200
+  HomingRadius: 20
   KnockBackForce: 400
-  Damage: 10
   Speed: 100
   MovementDIr: {x: 0, y: 0, z: 0}
-  PiercePower: 5
   ZLock: 2
 --- !u!54 &2883206059839577430
 Rigidbody:
@@ -336,7 +336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 524b4cf26f360e34cad80336ad94d20c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  Projectile: {fileID: 0}
+  Weapon_Ref: {fileID: 0}
 --- !u!50 &7372587025698080349
 Rigidbody2D:
   serializedVersion: 5

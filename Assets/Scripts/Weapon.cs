@@ -7,4 +7,23 @@ public class Weapon : MonoBehaviour
     public GameObject ImpactParticles;
     public float PiercePower = 2f;
 
+    public virtual void ImpactEnemy(HitBoxController enemyHitBox)
+    {
+
+
+
+    }
+    public virtual void SpawnParticles()
+    {
+        if (ImpactParticles == null)
+        {
+            return;
+        }
+
+
+        // Move(-Speed * Time.deltaTime);
+
+
+        Instantiate(ImpactParticles, transform.position, Quaternion.identity);
+    }
 }

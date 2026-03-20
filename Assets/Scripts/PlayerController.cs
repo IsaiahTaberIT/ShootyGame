@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     public float GizmoSize;
 
     public int WeaponIndex = 0;
-    public Projectile[] Weapons = new Projectile[0];
+    public Weapon[] Weapons = new Weapon[0];
 
 
 
