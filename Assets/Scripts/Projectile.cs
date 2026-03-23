@@ -102,7 +102,13 @@ public class Projectile : Weapon
 
         Move();
 
-        Instantiate(AtSpawnParticles, GameController.Controller.Player_Ref.transform.position + MovementDIr + Vector3.forward , particleOrientation);
+        if (GameController.Controller != null)
+        {
+            Instantiate(AtSpawnParticles, GameController.Controller.Player_Ref.transform.position + MovementDIr + Vector3.forward, particleOrientation);
+
+        }
+
+
 
     }
 

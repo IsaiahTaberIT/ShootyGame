@@ -10,11 +10,31 @@ public class Spawner : MonoBehaviour
 
 
     [SerializeReference] public List<GameObject> Enemies = new List<GameObject>();
-    void OnEnable()
+
+    private void Awake()
     {
         GameController.Controller.Spawner_Ref = this;
+
+    }
+
+
+    void OnEnable()
+    {
         SpawnTimer.OnLoop += Spawn;
     }
+
+
+
+
+
+    private void OnDisable()
+    {
+        SpawnTimer.OnLoop -= Spawn;
+
+    }
+
+
+
 
     private void Update()
     {

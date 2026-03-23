@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HurtBoxController
   Weapon_Ref: {fileID: 0}
-  TriggerOnFirstHit: 0
+  Behavior: 2
 --- !u!50 &125279731735819190
 Rigidbody2D:
   serializedVersion: 5
@@ -150,7 +150,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -15.41299, y: 3.6582, z: 46.61481}
-  m_LocalScale: {x: 0.1, y: 1, z: 60}
+  m_LocalScale: {x: 0.1, y: 1, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2884688105050602019}
@@ -225,10 +225,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4da8720bce4e0e4dbab7e45f179e137, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  Damage: 5
+  Damage: 0.75
   AtSpawnParticles: {fileID: 0}
   ImpactParticles: {fileID: 5291099011993489397, guid: 0e2ca9b8c78ba9d47ab4ea77befd7426, type: 3}
-  PiercePower: 2
+  PiercePower: 0
+  mask:
+    serializedVersion: 2
+    m_Bits: 128
   ChargeUpTime:
     Clamp: 1
     EndTime: 0.5
@@ -238,5 +241,7 @@ MonoBehaviour:
     EndTime: 10
     Time: 0
   TargetDirection: {x: 0, y: 0, z: 0}
-  Z: 4
+  Z: 5
   OffsetMult: 0
+  IsOverheated: 0
+  MaxUpTime: 10

@@ -26,16 +26,16 @@ public static class Logic
                 string prefix = baseString.Substring(0, i);
                 string suffix = baseString.Substring(i + j + 1, baseString.Length - 1 - i - j);
 
-                Debug.Log(baseString);
+            //    Debug.Log(baseString);
 
                 baseString = prefix + insertValue + suffix;
 
 
-                Debug.Log("Code Found");
+            //    Debug.Log("Code Found");
 
 
 
-                Debug.Log(baseString);
+             //   Debug.Log(baseString);
 
                 return baseString;
             }
@@ -515,6 +515,20 @@ public static class Logic
         public float EndTime;
         public float Time;
         public float Ratio => GetRatio();
+
+        public bool IsFinished => CheckIfFinished();
+
+        bool CheckIfFinished()
+        {
+            if (Ratio >=1)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+
         public void Step(float stepTime)
         {
             Time += stepTime;
@@ -534,14 +548,19 @@ public static class Logic
            
         }
 
-        public void Restart()
+        public void Loop()
         {
             OnLoop.Invoke();
-            Time = 0;
+            Time %= EndTime;
         }
 
 
-      
+        public void Reset()
+        {
+            OnLoop.Invoke();
+            Time = 0f;
+        }
+
         public void Step()
         {
             Step(UnityEngine.Time.deltaTime);

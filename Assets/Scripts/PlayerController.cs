@@ -1,12 +1,14 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using static Logic;
+using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerController : MonoBehaviour
 {
     public UnityEvent OnHurt;
 
-    public Timer ShootCooldown = new(0.1f,0,true);
+    public Timer ShootCooldown = new(0.1f, 0, true);
 
     public GameObject TestSphere;
 
@@ -28,8 +30,67 @@ public class PlayerController : MonoBehaviour
     private float BaseSpeed = 100f;
     public float GizmoSize;
 
-    public int WeaponIndex = 0;
-    public Weapon[] Weapons = new Weapon[0];
+  [SerializeField]  private int _WeaponIndex; 
+
+    public int WeaponIndex
+    {
+        get
+        {
+            return _WeaponIndex;
+        }
+        set
+        {
+            ChangeWeapon(value);
+        }
+    }
+
+    private void OnValidate()
+    {
+    //    WeaponIndex = _WeaponIndex;
+    }
+
+
+    public WeaponWrapper[] Weapons;
+
+
+    [ContextMenu("try")]
+    public void Try()
+    {
+
+
+    }
+
+    public void ChangeWeapon(int newIndex)
+    {
+
+        newIndex %= Weapons.Length;
+
+
+        if (newIndex < 0)
+        {
+            newIndex += Weapons.Length;
+        }
+
+
+        Debug.Log(WeaponIndex);
+        Debug.Log(newIndex);
+
+        if (WeaponIndex >= 0 && WeaponIndex < Weapons.Length)
+        {
+            if (Weapons[WeaponIndex] != null)
+            {
+                Weapons[WeaponIndex].gameObject.SetActive(false);
+
+            }
+        }
+
+
+        _WeaponIndex = newIndex;
+        Weapons[_WeaponIndex].gameObject.SetActive(true);
+    }
+
+
+
 
 
 
@@ -37,11 +98,25 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         GameController.Controller.Player_Ref = this;
- 
+
+        InitialiseAllWeapons();
+
 
 
         PlayerTransform = transform;
         InEditor = false;
+    }
+
+
+    void InitialiseAllWeapons()
+    {
+        foreach (WeaponWrapper weapon in Weapons)
+        {
+            weapon.gameObject.SetActive(false);
+        }
+
+        ChangeWeapon(0);
+
     }
 
 
@@ -68,12 +143,25 @@ public class PlayerController : MonoBehaviour
 
         //  WorldMousePos = ;
 
+        if (Mathf.Abs(Input.mouseScrollDelta.y) > 0)
+        {
+            WeaponIndex += Mathf.CeilToInt(Input.mouseScrollDelta.y);
+
+        }
+
 
         if (Input.GetMouseButtonDown(0))
         {
-            ShootCooldown.Time = 0;
             Shoot();
         }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            Weapons[WeaponIndex].ReleaseTrigger();
+        }
+
+
+
 
         if (Input.GetKey(KeyCode.D))
         {
@@ -111,7 +199,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    void InstantiateProjectile()
+    void UseActiveWeapon()
     {
         Camera c = GameController.Controller.MainCamera_Ref;
         Vector3 o = c.transform.position;
@@ -131,7 +219,12 @@ public class PlayerController : MonoBehaviour
         }
 
         WorldBounds.Surface playarea = GameController.Controller.Bounds.PlayArea;
-        GameObject.Instantiate(Weapons[WeaponIndex].gameObject, spawnPos, Quaternion.identity);
+
+
+        Weapons[WeaponIndex].UseWeapon(spawnPos, Quaternion.identity);
+
+
+       // GameObject.Instantiate(Weapons[WeaponIndex].gameObject, spawnPos, Quaternion.identity);
     }
 
 
@@ -143,18 +236,8 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (Weapons[WeaponIndex] is Projectile)
-        {
-            InstantiateProjectile();
-        }
 
-
-
-
-
-
-
-
+        UseActiveWeapon();
 
     }
 
@@ -164,6 +247,10 @@ public class PlayerController : MonoBehaviour
         {
             TryShoot();
         }
+
+ 
+
+
     }
 
     private void OnEnable()

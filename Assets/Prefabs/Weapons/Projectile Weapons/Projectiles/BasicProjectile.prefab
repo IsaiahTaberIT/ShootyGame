@@ -180,7 +180,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -196,7 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f176102be8dd90b49ac855298a05d957, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
-  Damage: 10
+  Damage: 100
   AtSpawnParticles: {fileID: 5870186991916360612, guid: c4c231bdd241f3041996512d57fc5020, type: 3}
   ImpactParticles: {fileID: 5291099011993489397, guid: 0e2ca9b8c78ba9d47ab4ea77befd7426, type: 3}
   PiercePower: 0.5
@@ -221,10 +221,10 @@ MonoBehaviour:
     EndTime: 3
     Time: 0
   SelfBody: {fileID: 0}
-  HomingFactor: 200
+  HomingFactor: 0
   HomingRadius: 20
-  KnockBackForce: 400
-  Speed: 100
+  KnockBackForce: 2000
+  Speed: 200
   MovementDIr: {x: 0, y: 0, z: 0}
   ZLock: 2
 --- !u!54 &2883206059839577430
@@ -253,7 +253,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!1 &6132279477591398740
 GameObject:
   m_ObjectHideFlags: 0
@@ -337,6 +337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   Weapon_Ref: {fileID: 0}
+  Behavior: 1
 --- !u!50 &7372587025698080349
 Rigidbody2D:
   serializedVersion: 5
@@ -360,7 +361,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0

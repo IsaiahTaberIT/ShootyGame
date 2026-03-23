@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Weapon : MonoBehaviour
 {
@@ -7,23 +8,32 @@ public class Weapon : MonoBehaviour
     public GameObject ImpactParticles;
     public float PiercePower = 2f;
 
+    public virtual void Released()
+    {
+
+    }
+
     public virtual void ImpactEnemy(HitBoxController enemyHitBox)
     {
 
 
 
     }
-    public virtual void SpawnParticles()
+
+    public virtual void SpawnParticles(Vector3 position, Quaternion rotation)
     {
         if (ImpactParticles == null)
         {
             return;
         }
 
+        Instantiate(ImpactParticles, position, rotation);
+    }
 
-        // Move(-Speed * Time.deltaTime);
 
+    public virtual void SpawnParticles()
+    {
+        SpawnParticles(transform.position, Quaternion.identity);
 
-        Instantiate(ImpactParticles, transform.position, Quaternion.identity);
     }
 }

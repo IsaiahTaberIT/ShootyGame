@@ -15,6 +15,8 @@ public class VisualizerScript : MonoBehaviour
     public Vector2 V2;
     public Vector2 VTest;
     public float Size;
+    public float TestFloat1;
+    public float TestFloat2;
 
     private void OnDrawGizmosSelected()
     {
@@ -36,6 +38,11 @@ public class VisualizerScript : MonoBehaviour
     }
 
 
+    private void OnValidate()
+    {
+        Debug.Log(TestFloat1 % TestFloat2);
 
+
+    }
 
 }

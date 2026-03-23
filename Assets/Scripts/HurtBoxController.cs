@@ -3,7 +3,15 @@ using UnityEngine;
 public class HurtBoxController : MonoBehaviour
 {
     public Weapon Weapon_Ref;
-    public bool TriggerOnFirstHit = true;
+    public CollisionBehavior Behavior;
+    public enum CollisionBehavior
+    {
+        Off =0,
+        FirstHit=1,
+        PerFrame=2,
+        Scripted = 3
+
+    }
     private void OnEnable()
     {
         Weapon_Ref = GetComponentInParent<Weapon>();
@@ -11,7 +19,7 @@ public class HurtBoxController : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (TriggerOnFirstHit)
+        if (Behavior != CollisionBehavior.PerFrame || (int)Behavior == 0)
         {
             return;
         }
@@ -29,7 +37,7 @@ public class HurtBoxController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
     
-        if (!TriggerOnFirstHit)
+        if (Behavior != CollisionBehavior.FirstHit || (int)Behavior == 0)
         {
             return;
         }

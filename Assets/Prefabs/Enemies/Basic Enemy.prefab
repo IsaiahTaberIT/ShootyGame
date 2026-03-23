@@ -69,7 +69,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.707
+  m_Radius: 1
 --- !u!114 &5604987507483970711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,7 +231,7 @@ MonoBehaviour:
   DeathParticles: {fileID: 5354618822795066078, guid: c1033b48622f3d1499ca3a09a68893b2, type: 3}
   LockedZ: 1
   SelfBody: {fileID: 0}
-  GroundSpeed: 40
+  GroundSpeed: 10
   SelfDamageRatio: 0.1
   AttackThreshold: 0.05
 --- !u!54 &-6100893777403713102
