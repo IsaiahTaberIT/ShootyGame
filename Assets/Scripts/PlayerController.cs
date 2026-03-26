@@ -6,11 +6,17 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerController : MonoBehaviour
 {
+
     public UnityEvent OnHurt;
 
     public Timer ShootCooldown = new(0.1f, 0, true);
 
     public GameObject TestSphere;
+
+    public float WeaponMovementSpeedMultiplier => GetMovementSpeedMultFromCurrentWeapon();
+
+
+
 
     public float Health = 100;
     public bool InEditor = true;
@@ -43,6 +49,27 @@ public class PlayerController : MonoBehaviour
             ChangeWeapon(value);
         }
     }
+
+    float GetMovementSpeedMultFromCurrentWeapon()
+    {
+        if (!Weapons.IsValueInRange(WeaponIndex) ||
+            Weapons[WeaponIndex] == null ||
+            Weapons[WeaponIndex].WeaponObject == null ||
+            !Weapons[WeaponIndex].isActiveAndEnabled
+            )
+        {
+            return 1;
+        }
+
+        return Weapons[WeaponIndex].WeaponObject.PlayerSpeedMult;
+
+
+
+
+
+
+    }
+
 
     private void OnValidate()
     {
@@ -123,7 +150,7 @@ public class PlayerController : MonoBehaviour
     public void Move()
     {
 
-        float speed = Time.deltaTime * Speed / BaseSpeed;
+        float speed = Time.deltaTime * Speed / BaseSpeed * WeaponMovementSpeedMultiplier;
 
         Progress += speed * Direction;
 

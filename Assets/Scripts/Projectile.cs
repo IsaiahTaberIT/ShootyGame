@@ -54,7 +54,15 @@ public class Projectile : Weapon
                         {
                             continue;
                         }
+                   }
+
+                   if (h.IsSensor)
+                    {
+                        continue;
                     }
+
+
+
 
                    float potential = Vector2.Distance(item.gameObject.transform.position, transform.position);
                 
@@ -120,27 +128,37 @@ public class Projectile : Weapon
     }
 
 
-    public override void ImpactEnemy(HitBoxController enemyHitBox)
+    public override void ImpactHitbox(HitBoxController hitBox, Collider2D collision)
     {
-        if (enemyHitBox == LastEnemyHitBox && LastCollisionTime - Time.realtimeSinceStartup > SameEnemyHitCoolDown)
+
+        if (hitBox.IsSensor)
         {
+            hitBox.Enemy.SensorTriggered(this, MovementDIr);
             return;
         }
 
 
 
-        enemyHitBox.Enemy.Hurt(Damage);
+        if (hitBox == LastEnemyHitBox && LastCollisionTime - Time.realtimeSinceStartup > SameEnemyHitCoolDown)
+        {
+            return;
+        }
 
-        enemyHitBox.Enemy.KnockBack(MovementDIr, KnockBackForce);
+      
+
+
+        hitBox.Enemy.Hurt(Damage);
+
+        hitBox.Enemy.KnockBack(MovementDIr, KnockBackForce);
        
         SpawnParticles();
 
 
 
         LastCollisionTime = Time.realtimeSinceStartup;
-        LastEnemyHitBox = enemyHitBox;
+        LastEnemyHitBox = hitBox;
 
-        PiercePower -= enemyHitBox.Enemy.PierceResistance;
+        PiercePower -= hitBox.Enemy.PierceResistance;
 
         if (PiercePower < UnityEngine.Random.Range(0f, 1f))
         {

@@ -2,12 +2,10 @@ using UnityEngine;
 using static Logic;
 public class AvoidingEnemy : Enemy
 {
-    public GameObject DeathParticles;
     public float LockedZ = 1f;
     public Rigidbody SelfBody;
     public float GroundSpeed;
-    public float SelfDamageRatio = 0.1f;
-    public float AttackThreshold = 0.05f;
+
     Vector3 Forward = Vector2.up;
     Vector3 Right = Vector2.right;
     public float StrafeDir;

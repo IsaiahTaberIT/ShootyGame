@@ -189,7 +189,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 1f92a95f953be8c4883181b91e6e6fac, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -225,10 +225,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4da8720bce4e0e4dbab7e45f179e137, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  Damage: 0.75
+  Damage: 5
   AtSpawnParticles: {fileID: 0}
   ImpactParticles: {fileID: 5291099011993489397, guid: 0e2ca9b8c78ba9d47ab4ea77befd7426, type: 3}
   PiercePower: 0
+  ChargeUpParticles: {fileID: 0}
+  OverHeatParticles: {fileID: 0}
   mask:
     serializedVersion: 2
     m_Bits: 128
@@ -236,12 +238,19 @@ MonoBehaviour:
     Clamp: 1
     EndTime: 0.5
     Time: 0
+  CoolDownTime:
+    Clamp: 1
+    EndTime: 1
+    Time: 1
   UpTime:
     Clamp: 1
     EndTime: 10
     Time: 0
   TargetDirection: {x: 0, y: 0, z: 0}
+  CurrentDir: {x: 0, y: 0, z: 0}
   Z: 5
   OffsetMult: 0
   IsOverheated: 0
   MaxUpTime: 10
+  TurningSpeed: 1
+  RotSpeedFalloffRange: 10

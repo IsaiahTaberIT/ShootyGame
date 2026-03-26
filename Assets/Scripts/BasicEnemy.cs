@@ -2,12 +2,10 @@ using UnityEngine;
 
 public class BasicEnemy : Enemy
 {
-    public GameObject DeathParticles;
     public float LockedZ = 1f;
     public Rigidbody SelfBody;
     public float GroundSpeed;
-    public float SelfDamageRatio = 0.1f;
-    public float AttackThreshold = 0.05f;
+
 
 
 

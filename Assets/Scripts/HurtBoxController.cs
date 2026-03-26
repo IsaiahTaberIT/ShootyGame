@@ -28,7 +28,7 @@ public class HurtBoxController : MonoBehaviour
         {
             Enemy e = hitbox.Enemy;
 
-            Weapon_Ref.ImpactEnemy(hitbox);
+            Weapon_Ref.ImpactHitbox(hitbox, collision);
 
 
 
@@ -44,16 +44,13 @@ public class HurtBoxController : MonoBehaviour
             Debug.Log("Hit!");
 
 
-            if (collision.gameObject.TryGetComponent<HitBoxController>(out HitBoxController hitbox))
-            {
-                Enemy e = hitbox.Enemy;
+        if (collision.gameObject.TryGetComponent<HitBoxController>(out HitBoxController hitbox))
+        {
+            Enemy e = hitbox.Enemy;
 
-                Weapon_Ref.ImpactEnemy(hitbox);
+            Weapon_Ref.ImpactHitbox(hitbox, collision);
+        }
 
-
-
-            }
-        
     }
 
 

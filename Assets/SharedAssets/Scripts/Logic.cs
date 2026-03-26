@@ -1,10 +1,9 @@
-using JetBrains.Annotations;
+using NUnit.Framework.Constraints;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 public static class Logic
 {
     static public string InsertOnCode(this string baseString,string code,string insertValue)
@@ -601,6 +600,42 @@ public static class Logic
     }
 
     
+    public static bool IsValueInRange(this IEnumerable collection,int value)
+    {
+        int length = 0;
+
+        if (collection is Array a)
+        {
+            length = a.Length;
+        }
+        else if (collection is IList l)
+        {
+            length = l.Count;
+        }
+        else
+        {
+            return false;
+        }
+
+
+
+        if (value > 0 && value < length)
+        {
+            return true;
+        }
+
+        return false;
+
+
+
+
+
+    }
+
+
+
+
+
     static public Color LerpColor(Color c1, Color c2, float t)
     {
         return (Color)LerpVector(c1, c2, t);
@@ -983,6 +1018,18 @@ public static class Logic
 
     }
 
+    public static Vector2 Rotate90(this Vector2 o,bool clockwise = false)
+    {
+        if (clockwise)
+        {
+            return new Vector2(o.y, -o.x);
+        }
+        else
+        {
+            return new Vector2(-o.y, o.x);
+
+        }
+    }
 
 
 

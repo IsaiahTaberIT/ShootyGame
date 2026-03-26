@@ -2,6 +2,8 @@ using UnityEngine;
 using static Logic;
 public class Laser : Weapon
 {
+    public ParticleSystem ChargeUpParticles;
+    public ParticleSystem OverHeatParticles;
     Vector3 playerpos = Vector3.zero;
     public LayerMask mask;
     public Timer ChargeUpTime = new(0.5f, 0, true);
@@ -16,25 +18,44 @@ public class Laser : Weapon
     public float MaxUpTime = 10f;
     public float TurningSpeed = 1f;
     public float RotSpeedFalloffRange = 10;
-    
+
+    public override Vector3 GetOrigin()
+    {
+       return GameController.Controller.Player_Ref.transform.position;
+    }
+   
+    void PlayParticles(ParticleSystem p, Vector3 pos, Quaternion rot)
+    {
+        p.transform.position = pos;
+        p.transform.rotation = rot;
+
+        p.Play();
+
+    }
+
+
+
+
     private void Update()
     {
         CoolDownTime.Step();
+        if (CoolDownTime.IsFinished)
+        {
+            IsOverheated = false;
 
-        //    Debug.Log("LaserActive");
+        }
 
+        if (IsOverheated)
+        {
+            PlayParticles(OverHeatParticles, playerpos, Quaternion.identity);
+
+        }
 
         Vector3 self = transform.position;
-
-
-     
         Vector3 mouse = GameController.WorldMousePos;
         mouse.z = Z;
         playerpos = GameController.Controller.Player_Ref.transform.position;
         playerpos.z = Z;
-
-
-
 
 
         TargetDirection = mouse - playerpos;
@@ -51,8 +72,16 @@ public class Laser : Weapon
 
         Vector3 newDir = Vector3.RotateTowards(CurrentDir, TargetDirection, Time.deltaTime * TurningSpeed * distanceModifier, 100f);
 
+        if (!ChargeUpTime.IsFinished)
+        {
+            PlayerSpeedMult = 1;
 
-
+            newDir = TargetDirection;
+        }
+        else
+        {
+            PlayerSpeedMult = 0.1f;
+        }
 
 
         self = newDir.normalized * transform.localScale.z * 5f + playerpos;
@@ -64,7 +93,7 @@ public class Laser : Weapon
 
     }
 
-    public override void ImpactEnemy(HitBoxController enemyHitBox)
+    public override void ImpactHitbox(HitBoxController enemyHitBox)
     {
         //enemyHitBox.Enemy.Hurt(Damage);
       //  SpawnParticles(enemyHitBox.transform.position,Quaternion.identity);
@@ -93,12 +122,13 @@ public class Laser : Weapon
             return;
         }
 
-        IsOverheated = false;
+
+
 
         ChargeUpTime.Step();
 
 
-        if (ChargeUpTime.IsFinished )
+        if (ChargeUpTime.IsFinished)
         {
             UpTime.Step();
             if (UpTime.IsFinished)
@@ -112,7 +142,12 @@ public class Laser : Weapon
 
             HitScanEnemy();
         }
-        
+        else
+        {
+            PlayParticles(ChargeUpParticles, playerpos, Quaternion.identity);
+
+        }
+
 
 
     }
@@ -147,25 +182,42 @@ public class Laser : Weapon
             return;
         }
 
-        Debug.Log("HitAnything");
+        //Debug.Log("HitAnything");
 
 
         for (int i = 0; i < hits.Length; i++ )
         {
-            if (hits[i].collider.gameObject.TryGetComponent<HitBoxController>(out HitBoxController enemyHitBox))
+            if (hits[i].collider.gameObject.TryGetComponent<HitBoxController>(out HitBoxController HitBox))
             {
-                enemyHitBox.Enemy.Hurt(Damage * RemainingPierce / initalPiercePower);
-                SpawnParticles(enemyHitBox.transform.position,Quaternion.identity);
-                RemainingPierce -= enemyHitBox.Enemy.PierceResistance;
+                if (HitBox.IsSensor)
+                {
+                    HitBox.Enemy.SensorTriggered(this,CurrentDir);
+                    Debug.Log(transform.position);
+                    continue;
+                }
+
+
+
+
+
+                HitBox.Enemy.Hurt(Damage * RemainingPierce / initalPiercePower);
+                SpawnParticles(HitBox.transform.position,Quaternion.identity);
+                RemainingPierce -= HitBox.Enemy.PierceResistance;
+
+
+                if (RemainingPierce <= 0)
+                {
+                    ReScaleBeam(Vector2.Distance(playerpos, hits[i].point) / 10f);
+                    return;
+
+                }
             }
 
-            if (RemainingPierce <= 0)
-            {
-                ReScaleBeam(Vector2.Distance(playerpos, hits[i].point) / 10f);
-                return;
-
-            }
+          
         }
+
+        ReScaleBeam(100f);
+
 
 
     }

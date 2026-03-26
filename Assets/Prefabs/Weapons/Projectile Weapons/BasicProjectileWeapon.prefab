@@ -48,5 +48,7 @@ MonoBehaviour:
   WeaponObject: {fileID: 8500986119265324242, guid: c1b81f4f60da1e54b889c6dffb78de58, type: 3}
   FireCooldown:
     Clamp: 1
-    EndTime: 0.2
+    EndTime: 1
     Time: 0
+  Automatic: 0
+  Released: 1
