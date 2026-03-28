@@ -225,10 +225,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4da8720bce4e0e4dbab7e45f179e137, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  PlayerSpeedMult: 0
   Damage: 5
   AtSpawnParticles: {fileID: 0}
   ImpactParticles: {fileID: 5291099011993489397, guid: 0e2ca9b8c78ba9d47ab4ea77befd7426, type: 3}
   PiercePower: 0
+  KnockBackForce: 10
+  BaseStats: {fileID: 0}
   ChargeUpParticles: {fileID: 0}
   OverHeatParticles: {fileID: 0}
   mask:
@@ -248,9 +251,9 @@ MonoBehaviour:
     Time: 0
   TargetDirection: {x: 0, y: 0, z: 0}
   CurrentDir: {x: 0, y: 0, z: 0}
-  Z: 5
+  Z: 3.5
   OffsetMult: 0
   IsOverheated: 0
   MaxUpTime: 10
-  TurningSpeed: 1
+  TurningSpeed: 5
   RotSpeedFalloffRange: 10

@@ -1,17 +1,29 @@
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class Weapon : MonoBehaviour
 {
-    public float PlayerSpeedMult;
+
+    public Action OnImpact = () => { };
+    public float PlayerSpeedMult = 1f;
     public float Damage = 100f;
     public GameObject AtSpawnParticles;
     public GameObject ImpactParticles;
     public float PiercePower = 2f;
+    public float KnockBackForce = 10f;
 
     public Vector3 Origin => this.GetOrigin();
 
- 
+    public WeaponBaseStats BaseStats;
+
+    public virtual void InitializeStats()
+    {
+
+        Damage = BaseStats.Damage;
+        PiercePower = BaseStats.PiercePower;
+        KnockBackForce = BaseStats.KnockBackPower;
+    }
 
 
 

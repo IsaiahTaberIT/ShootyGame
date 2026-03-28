@@ -82,6 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8b6e13d9bd5cf946a1f96e57aff5411, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  IsSensor: 0
   Enemy: {fileID: 0}
 --- !u!50 &8408157606679567674
 Rigidbody2D:
@@ -216,24 +217,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e27bd49bcc3acba41b37e16b65fa7056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  DeathParticles: {fileID: 5354618822795066078, guid: c1033b48622f3d1499ca3a09a68893b2, type: 3}
   PierceResistance: 1
   AttackCooldown:
     Clamp: 1
     EndTime: 0.25
     Time: 0
-  State: 0
   bounds: {fileID: 0}
   KnockbackEffectiveness: 1
-  BaseHealth: 50
+  SelfDamageRatio: 0.1
+  AttackThreshold: 0.05
   Health: 0
   Damage: 10
   NormailzedPosition: {x: 0, y: 0, z: 0}
-  DeathParticles: {fileID: 5354618822795066078, guid: c1033b48622f3d1499ca3a09a68893b2, type: 3}
+  BaseStats: {fileID: 11400000, guid: d5ec1d43937d8c24da444dd5fdc417a7, type: 2}
   LockedZ: 1
   SelfBody: {fileID: 0}
   GroundSpeed: 10
-  SelfDamageRatio: 0.1
-  AttackThreshold: 0.05
 --- !u!54 &-6100893777403713102
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -244,7 +244,7 @@ Rigidbody:
   serializedVersion: 5
   m_Mass: 1
   m_LinearDamping: 2
-  m_AngularDamping: 2
+  m_AngularDamping: 0.1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}

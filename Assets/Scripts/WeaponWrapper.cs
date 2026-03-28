@@ -14,10 +14,26 @@ public class WeaponWrapper : MonoBehaviour
         WeaponObject.Released();
     }
 
-    private void Update()
+    private void OnDisable()
     {
-        FireCooldown.Step();
+        GameController.OnFixedUpdateUnPaused -= OnUpdate;
+
     }
+    private void OnEnable()
+    {
+        GameController.OnFixedUpdateUnPaused += OnUpdate;
+
+    }
+
+    private void OnUpdate()
+    {
+        FireCooldown.Step(Time.fixedDeltaTime);
+
+    }
+
+
+
+
 
     public void UseWeapon(Vector3 position, Quaternion rotation)
     {
@@ -36,17 +52,21 @@ public class WeaponWrapper : MonoBehaviour
     }
     void TryInstantiateProjectile(Vector3 position, Quaternion rotation)
     {
+        Weapon w = null;
+
+
         if (FireCooldown.Ratio >= 1f)
         {
             if (Automatic)
-
             {
-                GameObject.Instantiate(WeaponObject, position, rotation);
+                w = GameObject.Instantiate(WeaponObject, position, rotation);
+                w.gameObject.SetActive(true);
                 FireCooldown.Time %= FireCooldown.EndTime;
             }
             else if (Released)
             {
-                GameObject.Instantiate(WeaponObject, position, rotation);
+                w = GameObject.Instantiate(WeaponObject, position, rotation);
+                w.gameObject.SetActive(true);
                 FireCooldown.Time %= FireCooldown.EndTime;
                 Released = false;
             }

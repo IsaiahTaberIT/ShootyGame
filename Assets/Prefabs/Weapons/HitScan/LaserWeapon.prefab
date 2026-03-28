@@ -139,10 +139,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 591532196897638117}
     m_Modifications:
     - target: {fileID: 3196649107732392414, guid: 7abbb8c678ba9064fa372663a76d7f70, type: 3}
-      propertyPath: Z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3196649107732392414, guid: 7abbb8c678ba9064fa372663a76d7f70, type: 3}
       propertyPath: ChargeUpParticles
       value: 
       objectReference: {fileID: 6593349598044122281}
@@ -150,6 +146,10 @@ PrefabInstance:
       propertyPath: OverHeatParticles
       value: 
       objectReference: {fileID: 6940869783781067315}
+    - target: {fileID: 3529720145624890433, guid: 7abbb8c678ba9064fa372663a76d7f70, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3529720145624890433, guid: 7abbb8c678ba9064fa372663a76d7f70, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

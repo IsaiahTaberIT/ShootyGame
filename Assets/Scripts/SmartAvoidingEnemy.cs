@@ -5,32 +5,28 @@ public class SmartAvoidingEnemy : Enemy
     public float TestPointSize = 50f;
     public Vector3 p1;
     public Vector3 p2;
-
-
-
-
     public float LockedZ = 1f;
     public Rigidbody SelfBody;
-    public float GroundSpeed;
-
-
     public Vector2 MoveDir;
     public Vector2 BaseMoveDir = Vector2.up;
     public float StrafeDir;
-
-
     public float AvoidingRange;
     public float AvoidingFalloffPower = 2f;
-    public float BaseStrafeSpeed = 20f;
     public float StrafeSpeed = 20;
     public Vector3 BiggestDangerPos;
     public float BiggestDangerCoefficient;
     public bool InDanger = false;
     public float Stubborness = 10f;
     public float DirectionChangeSpeed = 1f;
+    public float FleeSpeedMult = 2f;
     [Range(0f, 2f)] public float ReactionTime;
 
+    public override void InitializeStats()
+    {
+        base.InitializeStats();
 
+        StrafeSpeed = BaseStats.StrafeSpeed;
+    }
     public override void SensorTriggered(Weapon w, Vector3 dir)
     {
         Vector3 pos = w.Origin;
@@ -41,7 +37,7 @@ public class SmartAvoidingEnemy : Enemy
         p1.z = 5f;
         p2.z = 5f;
 
-        Vector3 test = Logic.NearestPointOnInfiniteLine(pos,pos+dir,(Vector2)transform.position + MoveDir.normalized * (GroundSpeed) * Time.smoothDeltaTime);
+        Vector3 test = Logic.NearestPointOnInfiniteLine(pos,pos+dir,(Vector2)transform.position + MoveDir.normalized * (Speed) * Time.smoothDeltaTime);
         float tempBDC = 0;
 
         float predictedPathWeight = 0.5f;
@@ -63,19 +59,21 @@ public class SmartAvoidingEnemy : Enemy
 
     public void Move()
     {
+        float movementSpeed = Speed;
+        StrafeDir = 0;
         if (!InDanger)
         {
             MoveDir = (Vector2)Vector3.RotateTowards(MoveDir, BaseMoveDir, Time.deltaTime * DirectionChangeSpeed, 0f);
 
         }
 
-        StrafeSpeed = 0;
 
         if (InDanger)
         {
             AvoidHarm();
             InDanger = false;
             BiggestDangerCoefficient = float.MaxValue;
+            movementSpeed *= FleeSpeedMult;
         }
         else
         {
@@ -92,7 +90,7 @@ public class SmartAvoidingEnemy : Enemy
         //NormailzedPosition = ScreenPos + (Vector3)MoveDir.normalized *( GroundSpeed + StrafeSpeed) * 0.01f * Time.fixedDeltaTime;
 
 
-        NormailzedPosition = ScreenPos + ((Vector3)MoveDir.normalized * GroundSpeed + Vector3.right * StrafeDir * StrafeSpeed) * 0.01f * Time.fixedDeltaTime;
+        NormailzedPosition = ScreenPos + ((Vector3)MoveDir.normalized * movementSpeed + Vector3.right * StrafeDir * StrafeSpeed) * 0.01f * Time.fixedDeltaTime;
 
 
 
@@ -113,7 +111,6 @@ public class SmartAvoidingEnemy : Enemy
     public override void KnockBack(Vector3 direction, float magnitude)
     {
         direction.z = 0;
-        direction.Normalize();
 
         Vector3 ScreenPos = bounds.PlayArea.NormalizedPos(transform.position);
 
@@ -134,23 +131,29 @@ public class SmartAvoidingEnemy : Enemy
         {
             base.Attack();
 
-            Hurt(SelfDamageRatio * BaseHealth);
+            Hurt(SelfDamageOnHit * Damage);
         }
 
     }
 
     void OnEnable()
     {
+        GameController.OnFixedUpdateUnPaused += OnFixedUpdate;
+
+        InitializeStats();
 
         SelfBody = GetComponent<Rigidbody>();
-        Health = BaseHealth;
-
+        
         if (bounds == null)
         {
             bounds = FindAnyObjectByType<WorldBounds>();
         }
     }
+    private void OnDisable()
+    {
+        GameController.OnFixedUpdateUnPaused -= OnFixedUpdate;
 
+    }
 
     public void AvoidHarm()
     {
@@ -186,7 +189,6 @@ public class SmartAvoidingEnemy : Enemy
     {
 
 
-        StrafeSpeed = BaseStrafeSpeed;
 
 
         PlayerController p = GameController.Controller.Player_Ref;
@@ -235,7 +237,7 @@ public class SmartAvoidingEnemy : Enemy
 
 
 
-    void FixedUpdate()
+    void OnFixedUpdate()
     {
 
         Move();

@@ -210,11 +210,7 @@ public class WorldBounds : MonoBehaviour
         GameController.Controller.Bounds = this;
     }
 
-    // Update is called once per frame
-  //  void Update()
-  //  {
-        
-  //  }
+
 
     [ExecuteAlways]
     private void OnDrawGizmosSelected()

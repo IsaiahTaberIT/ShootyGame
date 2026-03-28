@@ -2,126 +2,96 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static Logic;
-using static UnityEditor.Progress;
 [RequireComponent(typeof(Rigidbody))]
 public class Projectile : Weapon
 {
+    public float Spread = 5f;
+    public float Precision = 5f;
+
+    public float Health;
     public float SameEnemyHitCoolDown = 0.15f;
-    public ContactFilter2D ContactFilter;
-    public CircleCollider2D HomingRegion;
     public Timer LifeSpan = new Timer(100f, 0);
-    
-
     public Rigidbody SelfBody;
-    public float HomingFactor = 1f;
-    public float HomingRadius = 20f;
-
-    public float KnockBackForce = 10f;
     public float Speed = 20f;
-    public Vector3 MovementDIr;
+    public Vector2 MovementDir;
     public float ZLock;
+    public HitBoxController LastEnemyHitBox;
+    public float LastCollisionTime = 0f;
 
-    private HitBoxController LastEnemyHitBox;
-    private float LastCollisionTime = 0f;
+    public HomingModule Homing = null;
+    public ExplosionModule Explosion = null;
 
-    private void HandleHoming()
+
+    public override void InitializeStats()
     {
-        if (HomingFactor == 0f)
-        {
-            return;
-        }
-
-        float minDist = float.MaxValue;
-        Collider2D closest = null;
-        List<Collider2D> output = new();
-
-
-
-
-        if (HomingRegion.Overlap(ContactFilter,output) != 0)
-        {
-        //    Debug.Log(output.Count);
-
-
-
-            foreach (Collider2D item in output)
-            {
-                if (item.gameObject.TryGetComponent<HitBoxController>(out HitBoxController h))
-                {
-                   if (LastEnemyHitBox == h)
-                   {
-                        if (LastCollisionTime - Time.realtimeSinceStartup < SameEnemyHitCoolDown)
-                        {
-                            continue;
-                        }
-                   }
-
-                   if (h.IsSensor)
-                    {
-                        continue;
-                    }
-
-
-
-
-                   float potential = Vector2.Distance(item.gameObject.transform.position, transform.position);
-                
-                   if (potential < minDist)
-                   {
-                       minDist = potential;
-                       closest = item;
-                   }
-
-                }
-            }
-
-            if (closest != null)
-            {
-                Vector2 directionToClosest = closest.gameObject.transform.position - transform.position;
-
-            //    MovementDIr = Logic.LerpVector((Vector2)MovementDIr, directionToClosest.normalized,);
-
-                MovementDIr = Vector3.RotateTowards((Vector2)MovementDIr, directionToClosest.normalized, Time.deltaTime * HomingFactor / 20f * (1f -(minDist / HomingRegion.radius)) , 100f);
-
-
-
-            }
-
-
-            HomingRegion.transform.localPosition = (Vector3)(((Vector2)MovementDIr + new Vector2(0, 0.5f)).normalized * HomingRegion.radius * 0.8f);
-        }
+        base.InitializeStats();
+        Speed = BaseStats.Speed;
     }
 
     private void OnEnable()
     {
-        if (HomingRegion != null)
+        GameController.OnFixedUpdateUnPaused += OnFixedUpdate;
+
+        Homing = GetComponentInChildren<HomingModule>();
+        Explosion = GetComponentInChildren<ExplosionModule>();
+
+
+        if (Explosion != null)
         {
-            HomingRegion.radius = HomingRadius;
+            Explosion.Init(this);
         }
 
-        
+        if (Homing != null)
+        {
+            Homing.Init(this);
+        }
+
+
+      
+
+        InitializeStats();
         LifeSpan.OnLoop += Die;
         SelfBody = GetComponent<Rigidbody>();
-        MovementDIr = GameController.WorldMousePos - transform.position;
-        MovementDIr.Normalize();
 
-        Quaternion particleOrientation = Quaternion.LookRotation(MovementDIr, Vector3.forward);
 
+
+        Vector2 perfectMovementDir = GameController.WorldMousePos - transform.position;
+
+        float rotationOffset = UnityEngine.Random.Range(-1f, 1f);
+
+        rotationOffset = Mathf.Abs(Mathf.Pow(rotationOffset, Precision)) * Mathf.Sign(rotationOffset) * Spread;
+
+
+
+
+        MovementDir = Quaternion.AngleAxis(rotationOffset, Vector3.forward) * perfectMovementDir;
+
+
+
+
+
+
+        MovementDir.Normalize();
+
+        Quaternion particleOrientation = Quaternion.LookRotation(MovementDir, Vector3.forward);
 
         Move();
 
         if (GameController.Controller != null)
         {
-            Instantiate(AtSpawnParticles, GameController.Controller.Player_Ref.transform.position + MovementDIr + Vector3.forward, particleOrientation);
+            Instantiate(AtSpawnParticles, GameController.Controller.Player_Ref.transform.position + (Vector3)MovementDir + Vector3.forward, particleOrientation);
 
         }
+    }
 
+    private void OnDisable()
+    {
+        GameController.OnFixedUpdateUnPaused -= OnFixedUpdate;
 
 
     }
 
-
-    void FixedUpdate()
+    void OnFixedUpdate()
     {
         LifeSpan.Step(Time.fixedDeltaTime);
         Move();
@@ -133,10 +103,11 @@ public class Projectile : Weapon
 
         if (hitBox.IsSensor)
         {
-            hitBox.Enemy.SensorTriggered(this, MovementDIr);
+            hitBox.Enemy.SensorTriggered(this, MovementDir);
             return;
         }
 
+        OnImpact.Invoke();
 
 
         if (hitBox == LastEnemyHitBox && LastCollisionTime - Time.realtimeSinceStartup > SameEnemyHitCoolDown)
@@ -145,11 +116,9 @@ public class Projectile : Weapon
         }
 
       
-
-
         hitBox.Enemy.Hurt(Damage);
 
-        hitBox.Enemy.KnockBack(MovementDIr, KnockBackForce);
+        hitBox.Enemy.KnockBack(MovementDir, KnockBackForce);
        
         SpawnParticles();
 
@@ -178,7 +147,7 @@ public class Projectile : Weapon
 
         // Move(-Speed * Time.deltaTime);
 
-        Quaternion particleOrientation = Quaternion.LookRotation(-MovementDIr, Vector3.forward);
+        Quaternion particleOrientation = Quaternion.LookRotation(-MovementDir, Vector3.forward);
 
         Instantiate(ImpactParticles, transform.position, particleOrientation);
     }
@@ -192,9 +161,19 @@ public class Projectile : Weapon
 
     public void Move(float amount)
     {
-        HandleHoming();
+        if (Homing != null)
+        {
+            Homing.Apply(this);
+        }
 
-        Vector3 NewPos = transform.position + MovementDIr * amount;
+        if (Explosion != null)
+        {
+            Explosion.Apply(this);
+
+        }
+
+
+        Vector3 NewPos = transform.position + (Vector3)MovementDir * amount;
 
         NewPos.z = Mathf.Max(NewPos.z, ZLock);
         NewPos.z = ZLock;

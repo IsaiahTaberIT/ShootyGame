@@ -34,6 +34,7 @@ public class UiController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void OnEnable()
     {
+
         if (TryGetComponent<TextMeshProUGUI>(out TextMeshProUGUI t))
         {
             UIComponent = t;

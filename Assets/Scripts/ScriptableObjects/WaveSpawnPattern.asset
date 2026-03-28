@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d41bbb82fe85494dae0234f583b275a, type: 3}
+  m_Name: WaveSpawnPattern
+  m_EditorClassIdentifier: Assembly-CSharp::WaveSpawnPattern
+  EnemyCount: 10
+  SpawnPositions:
+  - 0.1
+  - 0.18888889
+  - 0.27777776
+  - 0.36666667
+  - 0.45555556
+  - 0.54444444
+  - 0.6333333
+  - 0.7222222
+  - 0.8111111
+  - 0.9
+  SpawnMinBounds: 0.1
+  SpawnMaxBounds: 0.9

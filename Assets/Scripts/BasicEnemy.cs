@@ -4,10 +4,9 @@ public class BasicEnemy : Enemy
 {
     public float LockedZ = 1f;
     public Rigidbody SelfBody;
-    public float GroundSpeed;
 
 
-
+    
 
     public void Move()
     {
@@ -15,7 +14,7 @@ public class BasicEnemy : Enemy
 
         ScreenPos.z = LockedZ;
 
-        NormailzedPosition = ScreenPos + Vector3.up * Time.fixedDeltaTime * GroundSpeed * 0.01f;
+        NormailzedPosition = ScreenPos + Vector3.up * Time.fixedDeltaTime * Speed * 0.01f;
 
         Vector3 NewWorldPos = bounds.PlayArea.NormalToSurface(NormailzedPosition);
 
@@ -33,7 +32,6 @@ public class BasicEnemy : Enemy
     public override void KnockBack(Vector3 direction, float magnitude)
     {
         direction.z = 0;
-        direction.Normalize();
 
         Vector3 ScreenPos = bounds.PlayArea.NormalizedPos(transform.position);
 
@@ -55,15 +53,18 @@ public class BasicEnemy : Enemy
         {
             base.Attack();
 
-            Hurt(SelfDamageRatio * BaseHealth);
+            Hurt(SelfDamageOnHit * Damage);
         }
 
     }
 
     void OnEnable()
     {
+        GameController.OnFixedUpdateUnPaused += OnFixedUpdate;
+
+        InitializeStats();
+
         SelfBody = GetComponent<Rigidbody>();
-        Health = BaseHealth;
 
         if (bounds == null)
         {
@@ -71,8 +72,15 @@ public class BasicEnemy : Enemy
         }
     }
 
+    private void OnDisable()
+    {
+        GameController.OnFixedUpdateUnPaused -= OnFixedUpdate;
+
+    }
+
+
     // Update is called once per frame
-    void FixedUpdate()
+    void OnFixedUpdate()
     {
         Move();
 

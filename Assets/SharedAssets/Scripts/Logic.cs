@@ -2,6 +2,8 @@ using NUnit.Framework.Constraints;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Runtime.InteropServices;
 using Unity.Mathematics;
 using UnityEngine;
 public static class Logic
@@ -619,7 +621,7 @@ public static class Logic
 
 
 
-        if (value > 0 && value < length)
+        if (value >= 0 && value < length)
         {
             return true;
         }
@@ -1031,6 +1033,20 @@ public static class Logic
         }
     }
 
+    public static string GetMemberName<T>(Expression<Func<T>> memberExpression)
+    {
+        MemberExpression expressionBody = (MemberExpression)memberExpression.Body;
+        return expressionBody.Member.Name;
+    }
 
+    public static Array ResizeArray<T>(Array array, int NewSize)
+    {
+        ComputeBuffer buffer = new(array.Length, Marshal.SizeOf<T>());
 
+        buffer.SetData(array);
+        buffer.GetData(array,0,0, NewSize);
+        buffer.Dispose();
+        return array;
+    }
+   
 }

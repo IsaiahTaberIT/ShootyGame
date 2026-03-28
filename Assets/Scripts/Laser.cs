@@ -19,6 +19,13 @@ public class Laser : Weapon
     public float TurningSpeed = 1f;
     public float RotSpeedFalloffRange = 10;
 
+    public override void InitializeStats()
+    {
+        base.InitializeStats();
+        TurningSpeed = BaseStats.Speed;
+    }
+
+
     public override Vector3 GetOrigin()
     {
        return GameController.Controller.Player_Ref.transform.position;
@@ -34,9 +41,20 @@ public class Laser : Weapon
     }
 
 
+    private void OnEnable()
+    {
+        InitializeStats();
+        GameController.OnUpdateUnPaused += OnUpdate;
+    }
+
+    private void OnDisable()
+    {
+        InitializeStats();
+        GameController.OnUpdateUnPaused -= OnUpdate;
+    }
 
 
-    private void Update()
+    private void OnUpdate()
     {
         CoolDownTime.Step();
         if (CoolDownTime.IsFinished)
@@ -163,8 +181,9 @@ public class Laser : Weapon
     public void HitScanEnemy()
     {
         float RemainingPierce = PiercePower;
-
         float initalPiercePower = PiercePower;
+
+
         if (RemainingPierce <= 0)
         {
             RemainingPierce = 1f;
@@ -201,12 +220,15 @@ public class Laser : Weapon
 
 
                 HitBox.Enemy.Hurt(Damage * RemainingPierce / initalPiercePower);
+                HitBox.Enemy.KnockBack(CurrentDir.normalized,KnockBackForce * RemainingPierce / initalPiercePower);
+
                 SpawnParticles(HitBox.transform.position,Quaternion.identity);
                 RemainingPierce -= HitBox.Enemy.PierceResistance;
 
 
                 if (RemainingPierce <= 0)
                 {
+                    Debug.Log("Beam Ended");
                     ReScaleBeam(Vector2.Distance(playerpos, hits[i].point) / 10f);
                     return;
 

@@ -164,7 +164,7 @@ public class PlayerController : MonoBehaviour
 
 
     // Update is called once per frame
-    void Update()
+    void OnUpdate()
     {
         Direction = 0f;
 
@@ -268,25 +268,29 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void FixedUpdate()
+    void OnFixedUpdate()
     {
         if (Input.GetMouseButton(0))
         {
             TryShoot();
         }
 
- 
-
-
     }
 
     private void OnEnable()
     {
+        GameController.OnFixedUpdateUnPaused += OnFixedUpdate;
+        GameController.OnUpdateUnPaused += OnUpdate;
+
+
         ShootCooldown.OnLoop += Shoot;
     }
 
     private void OnDisable()
     {
+        GameController.OnFixedUpdateUnPaused -= OnFixedUpdate;
+        GameController.OnUpdateUnPaused -= OnUpdate;
+
         ShootCooldown.OnLoop -= Shoot;
     }
 

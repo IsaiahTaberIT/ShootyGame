@@ -4,15 +4,25 @@ public class AvoidingEnemy : Enemy
 {
     public float LockedZ = 1f;
     public Rigidbody SelfBody;
-    public float GroundSpeed;
-
     Vector3 Forward = Vector2.up;
     Vector3 Right = Vector2.right;
     public float StrafeDir;
     public float AvoidingRange;
     public float AvoidingFalloffPower = 2f;
     public float StrafeSpeed = 20;
+
     [Range(0f,2f)]  public float ReactionTime;
+
+
+    public override void InitializeStats()
+    {
+        base.InitializeStats();
+
+        StrafeSpeed = BaseStats.StrafeSpeed;
+    }
+
+
+
     public void Move()
     {
         AvoidPlayerLineOfSight();
@@ -22,7 +32,7 @@ public class AvoidingEnemy : Enemy
 
         ScreenPos.z = LockedZ;
 
-        NormailzedPosition = ScreenPos + (Forward * GroundSpeed + Right * StrafeDir * StrafeSpeed) * 0.01f * Time.fixedDeltaTime;
+        NormailzedPosition = ScreenPos + (Forward * Speed + Right * StrafeDir * StrafeSpeed) * 0.01f * Time.fixedDeltaTime;
 
         Vector3 NewWorldPos = bounds.PlayArea.NormalToSurface(NormailzedPosition);
 
@@ -40,7 +50,6 @@ public class AvoidingEnemy : Enemy
     public override void KnockBack(Vector3 direction, float magnitude)
     {
         direction.z = 0;
-        direction.Normalize();
 
         Vector3 ScreenPos = bounds.PlayArea.NormalizedPos(transform.position);
 
@@ -61,16 +70,17 @@ public class AvoidingEnemy : Enemy
         {
             base.Attack();
 
-            Hurt(SelfDamageRatio * BaseHealth);
+            Hurt(SelfDamageOnHit * Damage);
         }
 
     }
 
     void OnEnable()
     {
+        GameController.OnFixedUpdateUnPaused += OnFixedUpdate;
+        InitializeStats();
 
         SelfBody = GetComponent<Rigidbody>();
-        Health = BaseHealth;
 
         if (bounds == null)
         {
@@ -78,6 +88,11 @@ public class AvoidingEnemy : Enemy
         }
     }
 
+    private void OnDisable()
+    {
+        GameController.OnFixedUpdateUnPaused -= OnFixedUpdate;
+
+    }
     public void AvoidPlayerLineOfSight()
     {
         PlayerController p = GameController.Controller.Player_Ref;
@@ -108,9 +123,9 @@ public class AvoidingEnemy : Enemy
     // Update is called once per frame
 
 
+    
 
-
-    void FixedUpdate()
+    void OnFixedUpdate()
     {
 
         Move();

@@ -327,7 +327,7 @@ Rigidbody:
   serializedVersion: 5
   m_Mass: 1
   m_LinearDamping: 2
-  m_AngularDamping: 2
+  m_AngularDamping: 0.1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -383,31 +383,30 @@ MonoBehaviour:
     Clamp: 1
     EndTime: 0.25
     Time: 0
-  State: 0
   bounds: {fileID: 0}
   KnockbackEffectiveness: 1
-  SelfDamageRatio: 0.1
+  SelfDamageOnHit: 0.1
   AttackThreshold: 0.05
-  BaseHealth: 50
   Health: 0
   Damage: 10
   NormailzedPosition: {x: 0, y: 0, z: 0}
+  Speed: 0
+  BaseStats: {fileID: 11400000, guid: 645b208db61bcb840a8ba77154fc4d67, type: 2}
   TestPointSize: 1
   p1: {x: 0, y: 0, z: 0}
   p2: {x: 0, y: 0, z: 0}
   LockedZ: 1
   SelfBody: {fileID: 0}
-  GroundSpeed: 20
   MoveDir: {x: 0, y: 1}
   BaseMoveDir: {x: 0, y: 1}
   StrafeDir: 0
   AvoidingRange: 20
   AvoidingFalloffPower: 2
-  BaseStrafeSpeed: 10
-  StrafeSpeed: 20
+  StrafeSpeed: 25
   BiggestDangerPos: {x: 0, y: 0, z: 0}
   BiggestDangerCoefficient: 0
   InDanger: 0
   Stubborness: 3
   DirectionChangeSpeed: 5
+  FleeSpeedMult: 1.5
   ReactionTime: 0.204
