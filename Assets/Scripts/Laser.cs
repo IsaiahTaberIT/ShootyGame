@@ -49,7 +49,6 @@ public class Laser : Weapon
 
     private void OnDisable()
     {
-        InitializeStats();
         GameController.OnUpdateUnPaused -= OnUpdate;
     }
 

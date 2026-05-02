@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 using static Logic;
 
 public class Enemy : MonoBehaviour
 {
     public int Index = 0;
-    public GameObject DeathParticles;
+    public MeshRenderer Renderer;
+    public ParticleSystem DeathParticles;
     public float PierceResistance = 1f;
     public Timer AttackCooldown;
     public WorldBounds bounds;
@@ -17,6 +19,21 @@ public class Enemy : MonoBehaviour
     public float Speed;
 
     public EnemyBaseStats BaseStats;
+
+
+
+    public void SetDeathParticlesColor()
+    {
+        Material instance = new(Renderer.material);
+        ParticleSystem.MainModule main = DeathParticles.main;
+        Renderer.material = instance;
+        main.startColor = Renderer.sharedMaterial.GetColor("_BaseColor");
+
+
+    }
+
+ 
+
 
     public virtual void InitializeStats()
     {
@@ -43,6 +60,11 @@ public class Enemy : MonoBehaviour
 
     public virtual void Die()
     {
+
+        DeathParticles.transform.SetParent(null, false);
+        DeathParticles.gameObject.SetActive(true);
+
+        DeathParticles.transform.position = transform.position; 
         GameController.Controller.RemoveEnemy(Index);
 
         GameObject.Destroy(gameObject);

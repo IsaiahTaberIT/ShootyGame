@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d41bbb82fe85494dae0234f583b275a, type: 3}
   m_Name: WaveSpawnPattern
   m_EditorClassIdentifier: Assembly-CSharp::WaveSpawnPattern
-  EnemyCount: 10
+  PatternType: 0
+  EnemyCount: 73
   SpawnPositions:
   - 0.1
   - 0.18888889
@@ -24,5 +25,133 @@ MonoBehaviour:
   - 0.7222222
   - 0.8111111
   - 0.9
-  SpawnMinBounds: 0.1
-  SpawnMaxBounds: 0.9
+  Duration: 6
+  TotalDurationWeights: 9
+  SubWaves:
+  - SubWaveDurationWeight: 1
+    Layers:
+    - StartOffset: 0.5
+      SpawnWidth: 0.12
+      NewPoints: 1
+    SpawnPositions:
+    - 0.5
+  - SubWaveDurationWeight: 1
+    Layers:
+    - StartOffset: 0.5
+      SpawnWidth: 0.125
+      NewPoints: 2
+    SpawnPositions:
+    - 0.4375
+    - 0.5625
+  - SubWaveDurationWeight: 1
+    Layers:
+    - StartOffset: 0.5
+      SpawnWidth: 0.25
+      NewPoints: 4
+    SpawnPositions:
+    - 0.375
+    - 0.45833334
+    - 0.5416667
+    - 0.625
+  - SubWaveDurationWeight: 1
+    Layers:
+    - StartOffset: 0.5
+      SpawnWidth: 0.375
+      NewPoints: 6
+    SpawnPositions:
+    - 0.3125
+    - 0.3875
+    - 0.4625
+    - 0.5375
+    - 0.6125
+    - 0.6875
+  - SubWaveDurationWeight: 1
+    Layers:
+    - StartOffset: 0.5
+      SpawnWidth: 0.5
+      NewPoints: 8
+    SpawnPositions:
+    - 0.25
+    - 0.32142857
+    - 0.39285713
+    - 0.46428573
+    - 0.53571427
+    - 0.60714287
+    - 0.67857146
+    - 0.75
+  - SubWaveDurationWeight: 1
+    Layers:
+    - StartOffset: 0.5
+      SpawnWidth: 0.625
+      NewPoints: 10
+    SpawnPositions:
+    - 0.1875
+    - 0.25694445
+    - 0.3263889
+    - 0.39583334
+    - 0.4652778
+    - 0.5347222
+    - 0.6041667
+    - 0.6736111
+    - 0.7430556
+    - 0.8125
+  - SubWaveDurationWeight: 1
+    Layers:
+    - StartOffset: 0.5
+      SpawnWidth: 0.75
+      NewPoints: 12
+    SpawnPositions:
+    - 0.125
+    - 0.19318181
+    - 0.26136363
+    - 0.32954547
+    - 0.39772728
+    - 0.4659091
+    - 0.53409094
+    - 0.60227275
+    - 0.67045456
+    - 0.7386364
+    - 0.8068182
+    - 0.875
+  - SubWaveDurationWeight: 1
+    Layers:
+    - StartOffset: 0.5
+      SpawnWidth: 0.875
+      NewPoints: 14
+    SpawnPositions:
+    - 0.0625
+    - 0.1298077
+    - 0.19711539
+    - 0.26442307
+    - 0.33173078
+    - 0.39903846
+    - 0.46634614
+    - 0.53365386
+    - 0.60096157
+    - 0.6682693
+    - 0.7355769
+    - 0.80288464
+    - 0.8701923
+    - 0.9375
+  - SubWaveDurationWeight: 1
+    Layers:
+    - StartOffset: 0.5
+      SpawnWidth: 1
+      NewPoints: 16
+    SpawnPositions:
+    - 0
+    - 0.06666667
+    - 0.13333334
+    - 0.2
+    - 0.26666668
+    - 0.33333334
+    - 0.4
+    - 0.46666667
+    - 0.53333336
+    - 0.6
+    - 0.6666667
+    - 0.73333335
+    - 0.8
+    - 0.8666667
+    - 0.93333334
+    - 1

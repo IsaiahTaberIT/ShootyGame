@@ -1,11 +1,16 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 using static Logic;
 using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerController : MonoBehaviour
 {
+ 
+    public InputActionReference MovementAction;
+    public InputActionReference ShootAction;
+    public InputActionReference ScrollAction;
 
     public UnityEvent OnHurt;
 
@@ -89,6 +94,7 @@ public class PlayerController : MonoBehaviour
 
     public void ChangeWeapon(int newIndex)
     {
+        Weapons[WeaponIndex].ReleaseTrigger();
 
         newIndex %= Weapons.Length;
 
@@ -163,44 +169,40 @@ public class PlayerController : MonoBehaviour
     }
 
 
+
+    
+
+
     // Update is called once per frame
     void OnUpdate()
     {
-        Direction = 0f;
+        Direction = MovementAction.action.ReadValue<Vector2>().x;
 
-        //  WorldMousePos = ;
 
-        if (Mathf.Abs(Input.mouseScrollDelta.y) > 0)
+ 
+        if (ShootAction.action.IsPressed())
         {
-            WeaponIndex += Mathf.CeilToInt(Input.mouseScrollDelta.y);
-
-        }
-
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            Shoot();
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            Weapons[WeaponIndex].ReleaseTrigger();
+            TryShoot();
         }
 
 
 
+        Vector2 scrollDelta = ScrollAction.action.ReadValue<Vector2>();
 
-        if (Input.GetKey(KeyCode.D))
+
+        if (Mathf.Abs(scrollDelta.y) > 0)
         {
-            Direction = 1f;
+            WeaponIndex += Mathf.CeilToInt(scrollDelta.y);
 
         }
 
-        if (Input.GetKey(KeyCode.A))
-        {
-            Direction = -1f;
-        }
 
+    
+
+
+
+
+        
 
         Move();
     }
@@ -220,11 +222,14 @@ public class PlayerController : MonoBehaviour
             Lose(); 
         }
     }
+    public void TryShoot(InputAction.CallbackContext obj)
+    {
+        TryShoot();
+    }
     public void TryShoot()
     {
         ShootCooldown.Step();
     }
-
 
     void UseActiveWeapon()
     {
@@ -268,18 +273,28 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void OnFixedUpdate()
-    {
-        if (Input.GetMouseButton(0))
-        {
-            TryShoot();
-        }
+   
 
+
+    void ReleaseTriggerWrapper(InputAction.CallbackContext obj)
+    {
+        Weapons[WeaponIndex].ReleaseTrigger();
     }
+
 
     private void OnEnable()
     {
-        GameController.OnFixedUpdateUnPaused += OnFixedUpdate;
+
+        ShootAction.action.started += TryShoot;
+        ShootAction.action.canceled += ReleaseTriggerWrapper;
+   
+
+
+
+
+
+
+
         GameController.OnUpdateUnPaused += OnUpdate;
 
 
@@ -288,9 +303,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnDisable()
     {
-        GameController.OnFixedUpdateUnPaused -= OnFixedUpdate;
         GameController.OnUpdateUnPaused -= OnUpdate;
 
+        ShootAction.action.started += TryShoot;
+        ShootAction.action.canceled += ReleaseTriggerWrapper;
         ShootCooldown.OnLoop -= Shoot;
     }
 

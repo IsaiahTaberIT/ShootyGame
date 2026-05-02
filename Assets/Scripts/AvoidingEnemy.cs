@@ -42,7 +42,7 @@ public class AvoidingEnemy : Enemy
 
     public override void Die()
     {
-        GameObject.Instantiate(DeathParticles, transform.position, Quaternion.identity);
+
         base.Die();
 
     }
@@ -77,6 +77,8 @@ public class AvoidingEnemy : Enemy
 
     void OnEnable()
     {
+        SetDeathParticlesColor();
+
         GameController.OnFixedUpdateUnPaused += OnFixedUpdate;
         InitializeStats();
 

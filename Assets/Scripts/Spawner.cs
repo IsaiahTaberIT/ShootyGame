@@ -10,6 +10,12 @@ public class Spawner : MonoBehaviour
     public int SpawnIndex;
     public WaveSpawnPattern SpawnPattern;
 
+    public float LastSpawnTime = 0;
+
+    public int SubWaveIndex = 0;
+    public Timer SubWaveTimer = new(0.5f, 0, false);
+
+
 
     void SpawnSpawnPattern(WaveSpawnPattern w)
     {
@@ -20,10 +26,28 @@ public class Spawner : MonoBehaviour
             return;
         }
 
-        foreach (float pos in w.SpawnPositions)
+        if (Time.time - LastSpawnTime < (w.SubWaves[SubWaveIndex].SubWaveDurationWeight / w.TotalDurationWeights) * w.Duration)
         {
+            SpawnTimer.Time = (w.SubWaves[SubWaveIndex].SubWaveDurationWeight / w.TotalDurationWeights) *w.Duration;
+            Debug.Log("BelowMin");
+            Debug.Log(Time.time - LastSpawnTime);
+
+            return;
+        }
+
+
+
+        foreach (float pos in w.SubWaves[SubWaveIndex].SpawnPositions)
+        {
+            LastSpawnTime = Time.time;
             Spawn(SpawnIndex, pos);
         }
+
+        SubWaveIndex++;
+
+        SubWaveIndex %= w.SubWaves.Count;
+
+
     }
 
 
@@ -74,6 +98,7 @@ public class Spawner : MonoBehaviour
     {
         SpawnTimer.Step(Time.fixedDeltaTime);
     }
+
     [ContextMenu("Spawn")]
 
     public void Spawn()
@@ -93,7 +118,7 @@ public class Spawner : MonoBehaviour
         else if (EnemyTypes[0] == null)
         {
             Debug.Log("reference at Index is null");
-
+            return;
         }
 
         if (GameController.Controller.EnemyArrayFull)
@@ -101,6 +126,8 @@ public class Spawner : MonoBehaviour
             Debug.Log("full");
             return;
         }
+
+
 
         Vector3 SpawnPos = GameController.Controller.Bounds.PlayArea.NormalToSurface(new Vector3(pos, 0, 1));
 

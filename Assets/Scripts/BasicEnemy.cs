@@ -24,7 +24,8 @@ public class BasicEnemy : Enemy
 
     public override void Die()
     {
-        GameObject.Instantiate(DeathParticles,transform.position,Quaternion.identity);
+
+        
         base.Die();
 
     }
@@ -60,6 +61,8 @@ public class BasicEnemy : Enemy
 
     void OnEnable()
     {
+        SetDeathParticlesColor();
+
         GameController.OnFixedUpdateUnPaused += OnFixedUpdate;
 
         InitializeStats();

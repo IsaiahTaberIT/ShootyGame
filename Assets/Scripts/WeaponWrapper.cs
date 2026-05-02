@@ -17,12 +17,12 @@ public class WeaponWrapper : MonoBehaviour
     private void OnDisable()
     {
         GameController.OnFixedUpdateUnPaused -= OnUpdate;
-
     }
     private void OnEnable()
     {
         GameController.OnFixedUpdateUnPaused += OnUpdate;
 
+    
     }
 
     private void OnUpdate()
@@ -37,6 +37,21 @@ public class WeaponWrapper : MonoBehaviour
 
     public void UseWeapon(Vector3 position, Quaternion rotation)
     {
+
+        if (WeaponObject != null)
+        {
+            if (!WeaponObject.gameObject.activeSelf)
+            {
+                WeaponObject.InitializeStats();
+            }
+            FireCooldown.EndTime = WeaponObject.UseTime;
+
+
+        }
+
+
+
+
         if (WeaponObject == null)
         {
             return;

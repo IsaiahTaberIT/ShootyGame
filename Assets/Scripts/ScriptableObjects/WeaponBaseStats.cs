@@ -17,7 +17,19 @@ public class WeaponBaseStats : ScriptableObject
             _Damage = value;
         }
     }
+    [SerializeField] private float _UseTime = 1f;
 
+    public float UseTime
+    {
+        get
+        {
+            return _UseTime;
+        }
+        set
+        {
+            _UseTime = value;
+        }
+    }
 
     [SerializeField] private float _KnockBackPower = 1f;
 

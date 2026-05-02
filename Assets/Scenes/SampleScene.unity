@@ -151,6 +151,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e1144bc04fe05646a23fc54f5cb0650, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  MovementAction: {fileID: 1274745012258472280, guid: 58da1b6acbd4e09458ef1f3f0695a7ca, type: 3}
+  ShootAction: {fileID: -5923199431494951372, guid: 58da1b6acbd4e09458ef1f3f0695a7ca, type: 3}
+  ScrollAction: {fileID: -5303084804292232116, guid: 58da1b6acbd4e09458ef1f3f0695a7ca, type: 3}
   OnHurt:
     m_PersistentCalls:
       m_Calls:
@@ -817,6 +820,60 @@ MonoBehaviour:
   TargetClass: {fileID: 100361044}
   TargetVariableName: Health
   UIComponent: {fileID: 0}
+--- !u!1 &745456198
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 745456200}
+  - component: {fileID: 745456199}
+  m_Layer: 0
+  m_Name: SpawnPatternRenderer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &745456199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 745456198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba113020daaf8214b85cc2dc5a444909, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  pattern: {fileID: 11400000, guid: 6b1f91d98536284418a80fe6ddeaf242, type: 2}
+  Start: {x: 45, y: 30, z: 0}
+  End: {x: -45, y: 30, z: 0}
+  StartColor: {r: 1, g: 0, b: 0, a: 1}
+  EndColor: {r: 0.04764533, g: 1, b: 0, a: 1}
+  SpawnPointSize: 1
+  EdgeSize: 0.5
+  SubWaveOffset: 2
+  BaseColorWeight: 0.58
+  BaseColor: {r: 0, g: 0, b: 0, a: 1}
+--- !u!4 &745456200
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 745456198}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1004,6 +1061,12 @@ MonoBehaviour:
     Time: 0
   SpawnIndex: 1
   SpawnPattern: {fileID: 11400000, guid: 6b1f91d98536284418a80fe6ddeaf242, type: 2}
+  LastSpawnTime: 0
+  SubWaveIndex: 0
+  SubWaveTimer:
+    Clamp: 0
+    EndTime: 0.5
+    Time: 0
   EnemyTypes:
   - {fileID: 8068775124143334955, guid: 82e244766a479194995fac0434f2ebd1, type: 3}
   - {fileID: 7489360791686402338, guid: 55b5ee38543d5eb4884395e04a8f4ebf, type: 3}
@@ -1306,6 +1369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62dbfb0536f969a4cb3ba0892754a028, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  LookAction: {fileID: 5924826330163056278, guid: 58da1b6acbd4e09458ef1f3f0695a7ca, type: 3}
   Paused: 0
   Player_Ref: {fileID: 0}
   Spawner_Ref: {fileID: 0}
@@ -2418,3 +2482,4 @@ SceneRoots:
   - {fileID: 1943154457071070043}
   - {fileID: 4318831581106763566}
   - {fileID: 1167969023}
+  - {fileID: 745456200}

@@ -103,7 +103,8 @@ public class SmartAvoidingEnemy : Enemy
 
     public override void Die()
     {
-        GameObject.Instantiate(DeathParticles, transform.position, Quaternion.identity);
+
+        
         base.Die();
 
     }
@@ -138,6 +139,8 @@ public class SmartAvoidingEnemy : Enemy
 
     void OnEnable()
     {
+        SetDeathParticlesColor();
+
         GameController.OnFixedUpdateUnPaused += OnFixedUpdate;
 
         InitializeStats();

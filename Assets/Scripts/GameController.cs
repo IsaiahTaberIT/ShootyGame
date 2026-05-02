@@ -4,11 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using static GameController;
 
 public class GameController : MonoBehaviour
 {
-  public bool Paused;
+    public InputActionReference LookAction;
+
+    public bool Paused;
   public static Action OnFixedUpdateUnPaused = () => { };
     public static Action OnUpdateUnPaused = () => { };
 
@@ -195,12 +198,13 @@ public class GameController : MonoBehaviour
             OnFixedUpdateUnPaused.Invoke();
 
 
+            Vector2 mousePosition = LookAction.action.ReadValue<Vector2>();
 
+          //  Debug.Log(mousePosition);
 
-
-            ViewMousePos = (Input.mousePosition / new Vector2(Screen.width, Screen.height));
+            ViewMousePos = (mousePosition / new Vector2(Screen.width, Screen.height));
             ViewMousePos.y = 1f - ViewMousePos.y;
-            ViewMousePos = Input.mousePosition;
+            ViewMousePos = mousePosition;
             ViewMousePos.z = 30;
 
             Camera c = Controller.MainCamera_Ref;

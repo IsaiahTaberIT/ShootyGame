@@ -12,14 +12,14 @@ public class Weapon : MonoBehaviour
     public GameObject ImpactParticles;
     public float PiercePower = 2f;
     public float KnockBackForce = 10f;
-
+    public float UseTime;
     public Vector3 Origin => this.GetOrigin();
 
     public WeaponBaseStats BaseStats;
 
     public virtual void InitializeStats()
     {
-
+        UseTime = BaseStats.UseTime;
         Damage = BaseStats.Damage;
         PiercePower = BaseStats.PiercePower;
         KnockBackForce = BaseStats.KnockBackPower;
