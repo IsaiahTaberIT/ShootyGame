@@ -5,14 +5,18 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using static GameController;
 
 public class GameController : MonoBehaviour
 {
     public InputActionReference LookAction;
 
+    public bool IsGameRunning => !(GameOver || Paused);
+
+    public bool GameOver = false;
     public bool Paused;
-  public static Action OnFixedUpdateUnPaused = () => { };
+    public static Action OnFixedUpdateUnPaused = () => { };
     public static Action OnUpdateUnPaused = () => { };
 
   public bool EnemyArrayFull => (AvailablePtr < 0);
@@ -31,6 +35,11 @@ public class GameController : MonoBehaviour
     public int AvailablePtr = 0;
 
     [SerializeField] private int _MaxEnemyCount = 1;
+    public List<Enemy> Enemies = new List<Enemy>();
+
+    [SerializeField] private int CurrentMousePositionUpdateIndex;
+    public bool Godmode;
+
     public int MaxEnemyCount
     {
         get
@@ -146,9 +155,7 @@ public class GameController : MonoBehaviour
     }
 
 
-    public List<Enemy> Enemies = new List<Enemy>();
-
-    [SerializeField ]private int CurrentMousePositionUpdateIndex;
+  
 
     public Vector3 GetPastMousePosition(float seconds)
     {
@@ -177,12 +184,27 @@ public class GameController : MonoBehaviour
 
         CurrentMousePositionUpdateIndex %= PreviousMousePositions.Length;
     }
-    private void Update()
+
+    public void GameEnd()
     {
 
-     
+        if (!Godmode) 
+        {
+            GameOver = true;
+        }
 
-        if (!Paused)
+
+
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+    }
+    private void Update()
+    {
+        if (IsGameRunning)
         {
             OnUpdateUnPaused.Invoke();
         }
@@ -192,7 +214,7 @@ public class GameController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (!Paused)
+        if (IsGameRunning)
         {
             Physics.Simulate(Time.fixedDeltaTime);
             OnFixedUpdateUnPaused.Invoke();

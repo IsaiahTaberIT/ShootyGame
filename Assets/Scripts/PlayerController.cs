@@ -209,6 +209,7 @@ public class PlayerController : MonoBehaviour
 
     public void Lose()
     {
+        GameController.Controller.GameEnd();
         Debug.Log("You Lost");
     }
 
@@ -305,8 +306,8 @@ public class PlayerController : MonoBehaviour
     {
         GameController.OnUpdateUnPaused -= OnUpdate;
 
-        ShootAction.action.started += TryShoot;
-        ShootAction.action.canceled += ReleaseTriggerWrapper;
+        ShootAction.action.started -= TryShoot;
+        ShootAction.action.canceled -= ReleaseTriggerWrapper;
         ShootCooldown.OnLoop -= Shoot;
     }
 

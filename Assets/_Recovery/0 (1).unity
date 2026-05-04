@@ -1973,6 +1973,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   CurrentMousePositionUpdateIndex: 0
+  Godmode: 1
 --- !u!4 &1385064228
 Transform:
   m_ObjectHideFlags: 0

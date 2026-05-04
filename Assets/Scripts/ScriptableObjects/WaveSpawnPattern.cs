@@ -6,7 +6,7 @@ using static UnityEditor.PlayerSettings;
 [CreateAssetMenu(fileName = "WaveSpawnPattern", menuName = "Scriptable Objects/WaveSpawnPattern")]
 public class WaveSpawnPattern : ScriptableObject
 {
-
+    public SpawnPatternRenderer Renderer;
     public enum PatternTypes
     {
 
@@ -140,6 +140,13 @@ public class WaveSpawnPattern : ScriptableObject
 
     private void OnValidate()
     {
+        Renderer = FindFirstObjectByType<SpawnPatternRenderer>();
+
+        if (Renderer != null)
+        {
+            Renderer.pattern = this;
+        }
+
         Gen();
     }
 
