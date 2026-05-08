@@ -9,6 +9,9 @@ public class ExplosionModule : ProjectileModule
     public float KnockBackPower = 200;
     public float BaseExplosionSize = 10f;
     public ParticleSystem ExplosionParticles;
+    public GlobalParticleSystem ShockWaveParticles;
+    public float ShockWaveScale = 0.75f;
+
     public float ExplosionDamage;
     Projectile Projectile_Ref;
     public float DetectionRange;
@@ -21,7 +24,7 @@ public class ExplosionModule : ProjectileModule
     public CircleCollider2D ExplosionDetonationRegion;
     public int EDRChildIndex = 1;
     public Transform[] Children = new Transform[10];
-
+    public AudioAsset ExplosionSound;
 
 
 
@@ -58,6 +61,23 @@ public class ExplosionModule : ProjectileModule
         }
 
 
+        if (ShockWaveParticles != null)
+        {
+
+            ParticleSystem.MainModule main = ((ParticleSystem)ShockWaveParticles).main;
+
+            float scaledRadius = ShockWaveScale * ExplosionRadius;
+
+
+            main.startSizeX = scaledRadius;
+            main.startSizeY = scaledRadius;
+            main.startSizeZ = scaledRadius / 2f;
+
+            ((ParticleSystem)ShockWaveParticles).transform.position = transform.position - Vector3.forward * 2f;
+            ((ParticleSystem)ShockWaveParticles).Emit(1);
+        }
+
+        ExplosionSound.PlayNew();
 
         List<Collider2D> output = new();
 
@@ -87,11 +107,14 @@ public class ExplosionModule : ProjectileModule
                     float knockback = Mathf.Lerp(KnockBackPower, 0, t);
 
 
-                    //  Debug.Log(damage);
+                    //  Debug.Log("esploded");
                     //  Debug.Log(t);
                     //  Debug.Log(Vector2.Distance(h.Enemy.transform.position, Projectile_Ref.transform.position));
 
-                    GlobalDebugRenderer.AddSphere(h.Enemy.transform.position, 2, Color.red, 0.5f);
+
+
+
+                  //  GlobalDebugRenderer.AddSphere(h.Enemy.transform.position, 2, Color.red, 0.5f);
 
                     h.Enemy.Hurt(damage );
                     h.Enemy.KnockBack(dir.normalized + Vector2.up * KnockbackUpBias, knockback);

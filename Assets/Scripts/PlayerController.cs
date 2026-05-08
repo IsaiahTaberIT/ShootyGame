@@ -7,22 +7,15 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerController : MonoBehaviour
 {
- 
-    public InputActionReference MovementAction;
-    public InputActionReference ShootAction;
-    public InputActionReference ScrollAction;
 
-    public UnityEvent OnHurt;
+    [SerializeField] private InputActionReference MovementAction;
+    [SerializeField] private InputActionReference ShootAction;
+    [SerializeField] private InputActionReference ScrollAction;
+    [SerializeField] private UnityEvent OnHurt;
+    [SerializeField] private Timer ShootCooldown = new(0.1f, 0, true);
 
-    public Timer ShootCooldown = new(0.1f, 0, true);
-
-    public GameObject TestSphere;
-
+    public Rigidbody PlayerBody;
     public float WeaponMovementSpeedMultiplier => GetMovementSpeedMultFromCurrentWeapon();
-
-
-
-
     public float Health = 100;
     public bool InEditor = true;
     public float Direction = 0;
@@ -31,15 +24,13 @@ public class PlayerController : MonoBehaviour
     public Vector3 TargetPoint = Vector3.zero;
     public Vector3 ViewMousePos = Vector3.zero;
     public Vector3 WorldMousePos = Vector3.zero;
-
-    // public float InterpolationSpeed = 1;
-    //public float MinInterpolationSpeed = 0.1f;
-
     public Transform PlayerTransform;
     public float Progress;
     [Min(0.01f)] public float Speed;
     private float BaseSpeed = 100f;
     public float GizmoSize;
+    public float Velocity;
+
 
   [SerializeField]  private int _WeaponIndex; 
 
@@ -74,13 +65,6 @@ public class PlayerController : MonoBehaviour
 
 
     }
-
-
-    private void OnValidate()
-    {
-    //    WeaponIndex = _WeaponIndex;
-    }
-
 
     public WeaponWrapper[] Weapons;
 
@@ -132,6 +116,8 @@ public class PlayerController : MonoBehaviour
     {
         GameController.Controller.Player_Ref = this;
 
+        PlayerBody = GetComponent<Rigidbody>();
+
         InitialiseAllWeapons();
 
 
@@ -156,15 +142,23 @@ public class PlayerController : MonoBehaviour
     public void Move()
     {
 
-        float speed = Time.deltaTime * Speed / BaseSpeed * WeaponMovementSpeedMultiplier;
+        float speed = Speed / BaseSpeed * WeaponMovementSpeedMultiplier;
+
+        Velocity = speed * Direction * Vector3.Distance(StartPoint, EndPoint);
+
+        speed *= Time.deltaTime;
+
 
         Progress += speed * Direction;
 
         Progress = Mathf.Clamp01(Progress);
 
+
+
+
         TargetPoint = Logic.LerpVector(StartPoint, EndPoint, Progress);
 
-        PlayerTransform.position = TargetPoint;
+        PlayerBody.MovePosition(TargetPoint);
 
     }
 

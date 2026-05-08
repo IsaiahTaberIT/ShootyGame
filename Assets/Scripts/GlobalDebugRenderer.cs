@@ -6,6 +6,10 @@ public class GlobalDebugRenderer : MonoBehaviour
     static List<SphereRenderer> SphereRenderers = new();
     static List<SphereRenderer> Temps = new();
 
+
+
+
+
     public static void AddSphere(Vector3 position, float size, Color color, float duration)
     {
         SphereRenderers.Add(new(position, size, color, duration));

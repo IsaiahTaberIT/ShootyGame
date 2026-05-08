@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d41bbb82fe85494dae0234f583b275a, type: 3}
+  m_Name: testPattern1
+  m_EditorClassIdentifier: Assembly-CSharp::WaveSpawnPattern
+  Renderer: {fileID: 0}
+  EnemyCount: 9
+  SpawnPositions: []
+  Duration: 1
+  TotalDurationWeights: 1
+  SubWaves:
+  - SubWaveDurationWeight: 1
+    Layers:
+    - StartOffset: 0.5
+      SpawnWidth: 0.9
+      Points: 6
+      PatternType: 1
+    - StartOffset: 0.5
+      SpawnWidth: 0
+      Points: 3
+      PatternType: 2
+    - StartOffset: 0.5
+      SpawnWidth: 0.075
+      Points: 3
+      PatternType: 1
+    SpawnPositions:
+    - 0.1925
+    - 0.23
+    - 0.2675
+    - 0.3725
+    - 0.41
+    - 0.4475
+    - 0.73249996
+    - 0.77
+    - 0.8075

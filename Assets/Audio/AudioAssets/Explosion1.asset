@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50adada5968b1a047ae728691b689026, type: 3}
-  m_Name: BasicProjectileStats
-  m_EditorClassIdentifier: Assembly-CSharp::WeaponBaseStats
-  _Damage: 20
-  _UseTime: 0.05
-  _KnockBackPower: 1000
-  _Pierce: 51.76
-  _Speed: 50
+  m_Script: {fileID: 11500000, guid: 3727538946d633c468be9265abaa830c, type: 3}
+  m_Name: Explosion1
+  m_EditorClassIdentifier: Assembly-CSharp::AudioAsset
+  clips:
+  - {fileID: 8300000, guid: 59dec0354aaae594bbeb45b93b49d887, type: 3}

@@ -5,6 +5,7 @@ using static Logic;
 [RequireComponent(typeof(Rigidbody))]
 public class Projectile : Weapon
 {
+    private PlayerController Player;
     public float Spread = 5f;
     public float Precision = 5f;
 
@@ -21,7 +22,6 @@ public class Projectile : Weapon
     public HomingModule Homing = null;
     public ExplosionModule Explosion = null;
 
-
     public override void InitializeStats()
     {
         base.InitializeStats();
@@ -31,6 +31,11 @@ public class Projectile : Weapon
     private void OnEnable()
     {
         GameController.OnFixedUpdateUnPaused += OnFixedUpdate;
+        Player = GameController.Controller.Player_Ref;
+
+
+  
+
 
         Homing = GetComponentInChildren<HomingModule>();
         Explosion = GetComponentInChildren<ExplosionModule>();
@@ -66,22 +71,31 @@ public class Projectile : Weapon
 
         MovementDir = Quaternion.AngleAxis(rotationOffset, Vector3.forward) * perfectMovementDir;
 
+        ApplyPlayerMovement();
+
+        LifeSpan.EndTime /= Speed;
 
 
-
-
-
-        MovementDir.Normalize();
 
         Quaternion particleOrientation = Quaternion.LookRotation(MovementDir, Vector3.forward);
 
         Move();
 
+
         if (GameController.Controller != null)
         {
-            Instantiate(AtSpawnParticles, GameController.Controller.Player_Ref.transform.position + (Vector3)MovementDir + Vector3.forward, particleOrientation);
+            Instantiate(AtSpawnParticles, Player.transform.position + (Vector3)MovementDir + Vector3.forward, particleOrientation, Player.transform);
 
         }
+
+        if (GameController.Controller != null && FireSoundAsset != null)
+        {
+            FireSoundAsset.PlayNew();
+
+        }
+
+
+
     }
 
     private void OnDisable()
@@ -96,6 +110,18 @@ public class Projectile : Weapon
         LifeSpan.Step(Time.fixedDeltaTime);
         Move();
     }
+
+
+    void ApplyPlayerMovement()
+    {
+        MovementDir.Normalize();
+        MovementDir *= Speed;
+        MovementDir += Player.Velocity * Vector2.left;
+        Speed = MovementDir.magnitude;
+        MovementDir /= Speed;
+    }
+
+
 
 
     public override void ImpactHitbox(HitBoxController hitBox, Collider2D collision)

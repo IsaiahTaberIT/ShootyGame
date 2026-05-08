@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
     public MeshRenderer Renderer;
     public ParticleSystem DeathParticles;
     public float PierceResistance = 1f;
-    public Timer AttackCooldown;
+    public Timer AttackCooldown = new Timer(1,0);
     public WorldBounds bounds;
     public float KnockbackEffectiveness = 1f;
     public float SelfDamageOnHit = 0.1f;

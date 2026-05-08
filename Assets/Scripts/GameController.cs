@@ -10,6 +10,7 @@ using static GameController;
 
 public class GameController : MonoBehaviour
 {
+    public AudioSource GlobalAudioSource;
     public InputActionReference LookAction;
 
     public bool IsGameRunning => !(GameOver || Paused);
@@ -257,6 +258,7 @@ public class GameController : MonoBehaviour
 
     void Init()
     {
+        GlobalAudioSource = GetComponent<AudioSource>();
         Controller = this;
         MainCamera_Ref = Camera.main;
 

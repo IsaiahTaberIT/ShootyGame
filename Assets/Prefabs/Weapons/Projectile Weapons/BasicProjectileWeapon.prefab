@@ -159,7 +159,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -324,9 +324,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ExplosionModule
   KnockbackUpBias: 0
-  KnockBackPower: 500
+  KnockBackPower: 2000
   BaseExplosionSize: 0.04
   ExplosionParticles: {fileID: 3162948648168173435, guid: 5a1c9997eb6515c4fa2de35afde2d187, type: 3}
+  ShockWaveParticles: {fileID: 11400000, guid: 5a8b472ebe6e7014db62e4aa51a40e78, type: 2}
+  ShockWaveScale: 0.75
   ExplosionDamage: 0
   DetectionRange: 5
   ExplosionRadius: 20
@@ -360,6 +362,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  ExplosionSound: {fileID: 0}
 --- !u!1 &6811925747063901281
 GameObject:
   m_ObjectHideFlags: 0
@@ -461,7 +464,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -588,12 +591,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f176102be8dd90b49ac855298a05d957, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
+  FireSoundAsset: {fileID: 11400000, guid: de2782be3ef799240812fc0364a4c9ba, type: 2}
+  Source: {fileID: 0}
   PlayerSpeedMult: 1
   Damage: 10
   AtSpawnParticles: {fileID: 5870186991916360612, guid: c4c231bdd241f3041996512d57fc5020, type: 3}
   ImpactParticles: {fileID: 5291099011993489397, guid: 0e2ca9b8c78ba9d47ab4ea77befd7426, type: 3}
   PiercePower: 20
   KnockBackForce: 400
+  UseTime: 0
   BaseStats: {fileID: 11400000, guid: 0f75cd2a15f09b84a9fa4a0d44c9178e, type: 2}
   Spread: 5
   Precision: 5
@@ -601,7 +607,7 @@ MonoBehaviour:
   SameEnemyHitCoolDown: 0.2
   LifeSpan:
     Clamp: 0
-    EndTime: 3
+    EndTime: 300
     Time: 0
   SelfBody: {fileID: 0}
   Speed: 50

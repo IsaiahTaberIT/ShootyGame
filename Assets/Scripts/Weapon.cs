@@ -4,7 +4,8 @@ using UnityEngine.UIElements;
 
 public class Weapon : MonoBehaviour
 {
-
+    public AudioAsset FireSoundAsset;
+    public AudioSource Source;
     public Action OnImpact = () => { };
     public float PlayerSpeedMult = 1f;
     public float Damage = 100f;

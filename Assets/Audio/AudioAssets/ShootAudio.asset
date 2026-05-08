@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3727538946d633c468be9265abaa830c, type: 3}
+  m_Name: ShootAudio
+  m_EditorClassIdentifier: Assembly-CSharp::AudioAsset
+  clips:
+  - {fileID: 8300000, guid: 811b0b91c3078ed47aca6acd1727e0bc, type: 3}

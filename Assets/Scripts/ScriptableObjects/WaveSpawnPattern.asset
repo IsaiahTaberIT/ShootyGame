@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d41bbb82fe85494dae0234f583b275a, type: 3}
   m_Name: WaveSpawnPattern
   m_EditorClassIdentifier: Assembly-CSharp::WaveSpawnPattern
+  Renderer: {fileID: 0}
   PatternType: 0
   EnemyCount: 73
   SpawnPositions:

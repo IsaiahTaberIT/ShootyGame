@@ -39,7 +39,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 565867511163492435}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -107,7 +107,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4518394298782361327}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -164,7 +164,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 114.6229, y: 45.50363, z: 69.28161}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1913913824637742509}
   - {fileID: 290648433687269546}
@@ -186,6 +186,7 @@ MonoBehaviour:
   KnockBackPower: 600
   BaseExplosionSize: 0.04
   ExplosionParticles: {fileID: 3162948648168173435, guid: 5a1c9997eb6515c4fa2de35afde2d187, type: 3}
+  ShockWaveParticles: {fileID: 1644169616946912347, guid: 163b9ff8e47eafd4b9123ee5452742a4, type: 3}
   ExplosionDamage: 10
   DetectionRange: 3
   ExplosionRadius: 10
@@ -208,14 +209,4 @@ MonoBehaviour:
   EHRChildIndex: 0
   ExplosionDetonationRegion: {fileID: 0}
   EDRChildIndex: 1
-  Children:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  Children: []

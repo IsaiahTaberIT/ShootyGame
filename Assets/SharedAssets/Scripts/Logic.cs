@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
 using UnityEngine;
+using Random = System.Random;
 public static class Logic
 {
     static public string InsertOnCode(this string baseString,string code,string insertValue)
@@ -508,6 +509,8 @@ public static class Logic
     }
 
 
+
+
     [System.Serializable]
     public class Timer
     {
@@ -528,6 +531,10 @@ public static class Logic
 
             return false;
         }
+
+     
+
+
 
 
         public void Step(float stepTime)
@@ -1048,5 +1055,26 @@ public static class Logic
         buffer.Dispose();
         return array;
     }
-   
+
+    public static void Shuffle<T>(ref T[] array)
+    {
+        Random rng = new Random();
+        int n = array.Length;
+        while (n > 1)
+        {
+            int k = rng.Next(n--);
+
+            k %= array.Length;
+            T temp = array[n];
+            array[n] = array[k];
+            array[k] = temp;
+
+            if (n>100)
+            {
+                Debug.Log("escape");
+                return;
+            }
+        }
+    }
+
 }

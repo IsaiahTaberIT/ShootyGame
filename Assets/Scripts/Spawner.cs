@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
 using static Logic;
+using static WaveSpawnPattern;
 public class Spawner : MonoBehaviour
 {
 
@@ -17,7 +18,7 @@ public class Spawner : MonoBehaviour
 
 
 
-    void SpawnSpawnPattern(WaveSpawnPattern w)
+    void SpawnWaveSpawnPattern(WaveSpawnPattern w)
     {
 
         if (!GameController.Controller.CanHandleMoreEmemies(w.EnemyCount))
@@ -33,6 +34,11 @@ public class Spawner : MonoBehaviour
             Debug.Log(Time.time - LastSpawnTime);
 
             return;
+        }
+
+        if (w.SubWaves[SubWaveIndex].IsNonDeterministic)
+        {
+            w.SubWaves[SubWaveIndex].GenerateSpawnPositions();
         }
 
 
@@ -62,16 +68,7 @@ public class Spawner : MonoBehaviour
 
     }
 
-    [ContextMenu("re")]
-
-    public void Re()
-    {
-
-    }
-
-
-
-
+  
     void OnEnable()
     {
         GameController.OnFixedUpdateUnPaused += OnFixedUpdate;
@@ -104,7 +101,7 @@ public class Spawner : MonoBehaviour
     public void Spawn()
     {
         SpawnIndex = UnityEngine.Random.Range(0, EnemyTypes.Count);
-        SpawnSpawnPattern(SpawnPattern);
+        SpawnWaveSpawnPattern(SpawnPattern);
     }
 
 

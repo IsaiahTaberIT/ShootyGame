@@ -11,7 +11,7 @@ public class WeaponWrapper : MonoBehaviour
     public void ReleaseTrigger()
     {
         Released = true;
-        Debug.Log(WeaponObject,this);
+      //  Debug.Log(WeaponObject,this);
         if (WeaponObject)
         {
 
