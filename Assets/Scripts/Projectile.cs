@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static Logic;
-[RequireComponent(typeof(Rigidbody))]
 public class Projectile : Weapon
 {
     private PlayerController Player;
@@ -31,6 +30,9 @@ public class Projectile : Weapon
     private void OnEnable()
     {
         GameController.OnFixedUpdateUnPaused += OnFixedUpdate;
+
+        SelfBody = GetComponent<Rigidbody>();
+
         Player = GameController.Controller.Player_Ref;
 
 
@@ -56,7 +58,6 @@ public class Projectile : Weapon
 
         InitializeStats();
         LifeSpan.OnLoop += Die;
-        SelfBody = GetComponent<Rigidbody>();
 
 
 
@@ -91,7 +92,7 @@ public class Projectile : Weapon
         if (GameController.Controller != null && FireSoundAsset != null)
         {
             FireSoundAsset.PlayNew();
-
+            //Debug.Log("tried to play " + FireSoundAsset);
         }
 
 

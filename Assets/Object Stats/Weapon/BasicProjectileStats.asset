@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50adada5968b1a047ae728691b689026, type: 3}
   m_Name: BasicProjectileStats
   m_EditorClassIdentifier: Assembly-CSharp::WeaponBaseStats
-  _Damage: 1000
+  _Damage: 5
   _UseTime: 0.05
-  _KnockBackPower: 1000
+  _KnockBackPower: 5000
   _Pierce: 51.76
-  _Speed: 20
+  _Speed: 100

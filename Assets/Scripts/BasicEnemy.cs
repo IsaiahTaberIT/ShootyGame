@@ -3,10 +3,8 @@ using UnityEngine;
 public class BasicEnemy : Enemy
 {
     public float LockedZ = 1f;
-    public Rigidbody SelfBody;
 
 
-    
 
     public void Move()
     {
@@ -67,7 +65,7 @@ public class BasicEnemy : Enemy
 
         InitializeStats();
 
-        SelfBody = GetComponent<Rigidbody>();
+        SelfBody= GetComponent<Rigidbody>();
 
         if (bounds == null)
         {

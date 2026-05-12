@@ -7,7 +7,6 @@ public class WanderingEnemy : Enemy
     public float MinDelay = 0.1f;
     public float MaxDelay = 0.75f;
     public float LockedZ = 1f;
-    public Rigidbody SelfBody;
     public Vector2 MoveDir;
     public Vector2 BaseMoveDir = Vector2.up;
     public float StrafeSpeed = 20;
@@ -42,10 +41,27 @@ public class WanderingEnemy : Enemy
         Vector3 ScreenPos = bounds.PlayArea.NormalizedPos(transform.position);
 
 
+        WorldBounds.BoundsCheckResult result = WorldBounds.CheckBoundsByPoint(ScreenPos);
+
+        if (result.AtWestEdge)
+        {
+            TargetWanderDir.x = Mathf.Abs(TargetWanderDir.x) * -1f;
+            MoveDir.x = Mathf.Abs(MoveDir.x) * -1f;
+
+        }
+        else if(result.AtEastEdge) 
+        {
+            TargetWanderDir.x = Mathf.Abs(TargetWanderDir.x);
+            MoveDir.x = Mathf.Abs(MoveDir.x);
+        }
 
 
 
-        ScreenPos.z = LockedZ;
+
+
+
+
+            ScreenPos.z = LockedZ;
 
         NormailzedPosition = ScreenPos + ((Vector3)(MoveDir.normalized + BaseMoveDir) * movementSpeed) * 0.01f * Time.fixedDeltaTime;
 
@@ -85,6 +101,8 @@ public class WanderingEnemy : Enemy
 
     void OnEnable()
     {
+        SelfBody = GetComponent<Rigidbody>();
+
         UpdateWanderDirection();
         SetDeathParticlesColor();
 
@@ -94,7 +112,6 @@ public class WanderingEnemy : Enemy
 
         InitializeStats();
 
-        SelfBody = GetComponent<Rigidbody>();
 
         if (bounds == null)
         {

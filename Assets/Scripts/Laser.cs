@@ -19,6 +19,8 @@ public class Laser : Weapon
     public float TurningSpeed = 1f;
     public float RotSpeedFalloffRange = 10;
 
+    public float LengthScale = 1f;
+
     public override void InitializeStats()
     {
         base.InitializeStats();
@@ -172,7 +174,7 @@ public class Laser : Weapon
     public void ReScaleBeam(float length)
     {
         Vector3 newscale = transform.localScale;
-        newscale.z = length;
+        newscale.z = length * LengthScale;
         transform.localScale = newscale;
     }
 
@@ -210,7 +212,7 @@ public class Laser : Weapon
                 if (HitBox.IsSensor)
                 {
                     HitBox.Enemy.SensorTriggered(this,CurrentDir);
-                    Debug.Log(transform.position);
+                   // Debug.Log(transform.position);
                     continue;
                 }
 
@@ -227,7 +229,7 @@ public class Laser : Weapon
 
                 if (RemainingPierce <= 0)
                 {
-                    Debug.Log("Beam Ended");
+                   // Debug.Log("Beam Ended");
                     ReScaleBeam(Vector2.Distance(playerpos, hits[i].point) / 10f);
                     return;
 

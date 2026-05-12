@@ -89,8 +89,8 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        Debug.Log(WeaponIndex);
-        Debug.Log(newIndex);
+       // Debug.Log(WeaponIndex);
+       // Debug.Log(newIndex);
 
         if (WeaponIndex >= 0 && WeaponIndex < Weapons.Length)
         {
@@ -114,7 +114,6 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        GameController.Controller.Player_Ref = this;
 
         PlayerBody = GetComponent<Rigidbody>();
 

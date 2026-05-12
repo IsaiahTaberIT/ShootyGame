@@ -218,6 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e27bd49bcc3acba41b37e16b65fa7056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  PointsAddedOnDeath: 10
   Index: 0
   Renderer: {fileID: 6430005380554239150}
   DeathParticles: {fileID: 1964880522946513091}
@@ -234,9 +235,9 @@ MonoBehaviour:
   Damage: 10
   NormailzedPosition: {x: 0, y: 0, z: 0}
   Speed: 0
+  SelfBody: {fileID: 0}
   BaseStats: {fileID: 11400000, guid: d5ec1d43937d8c24da444dd5fdc417a7, type: 2}
   LockedZ: 1
-  SelfBody: {fileID: 0}
 --- !u!54 &-6100893777403713102
 Rigidbody:
   m_ObjectHideFlags: 0

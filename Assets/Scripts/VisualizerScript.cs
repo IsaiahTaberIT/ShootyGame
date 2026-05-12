@@ -40,7 +40,7 @@ public class VisualizerScript : MonoBehaviour
 
     private void OnValidate()
     {
-        Debug.Log(TestFloat1 % TestFloat2);
+       // Debug.Log(TestFloat1 % TestFloat2);
 
 
     }

@@ -3,7 +3,6 @@ using static Logic;
 public class AvoidingEnemy : Enemy
 {
     public float LockedZ = 1f;
-    public Rigidbody SelfBody;
     Vector3 Forward = Vector2.up;
     Vector3 Right = Vector2.right;
     public float StrafeDir;

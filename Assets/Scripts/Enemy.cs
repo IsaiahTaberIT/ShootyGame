@@ -4,6 +4,7 @@ using static Logic;
 
 public class Enemy : MonoBehaviour
 {
+    public int PointsAddedOnDeath = 10;
     public int Index = 0;
     public MeshRenderer Renderer;
     public ParticleSystem DeathParticles;
@@ -17,6 +18,7 @@ public class Enemy : MonoBehaviour
     public float Damage;
     public Vector3 NormailzedPosition;
     public float Speed;
+    public Rigidbody SelfBody;
 
     public EnemyBaseStats BaseStats;
 
@@ -66,7 +68,7 @@ public class Enemy : MonoBehaviour
 
         DeathParticles.transform.position = transform.position; 
         GameController.Controller.RemoveEnemy(Index);
-
+        GameController.Controller.AddPoints(PointsAddedOnDeath);
         GameObject.Destroy(gameObject);
     }
 

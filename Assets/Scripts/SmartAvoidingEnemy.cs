@@ -6,7 +6,6 @@ public class SmartAvoidingEnemy : Enemy
     public Vector3 p1;
     public Vector3 p2;
     public float LockedZ = 1f;
-    public Rigidbody SelfBody;
     public Vector2 MoveDir;
     public Vector2 BaseMoveDir = Vector2.up;
     public float StrafeDir;

@@ -6,8 +6,14 @@ public class GlobalDebugRenderer : MonoBehaviour
     static List<SphereRenderer> SphereRenderers = new();
     static List<SphereRenderer> Temps = new();
 
+    public AudioSource source;
 
-
+    [ContextMenu ("play")]
+    public void playsound()
+    {
+        Debug.Log("p");
+        source.Play();
+    }
 
 
     public static void AddSphere(Vector3 position, float size, Color color, float duration)

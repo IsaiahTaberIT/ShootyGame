@@ -19,6 +19,52 @@ public class WorldBounds : MonoBehaviour
     public LayerMask PlaySurfaceLayer;
 
 
+    public struct BoundsCheckResult
+    {
+        public readonly bool AtBounds => (AtNorthEdge || AtSouthEdge || AtEastEdge || AtWestEdge);
+
+        public readonly bool AtSides => (AtWestEdge || AtWestEdge);
+        public readonly bool AtTopOrBottom => (AtNorthEdge || AtSouthEdge);
+
+        public bool AtNorthEdge;
+        public bool AtSouthEdge;
+        public bool AtEastEdge; 
+        public bool AtWestEdge;
+
+        
+     
+    }
+
+
+
+    public static BoundsCheckResult CheckBoundsByPoint(Vector2 point, float threshold = 0.001f)
+    {
+        BoundsCheckResult boundsCheckResult = new BoundsCheckResult();
+
+        if (point.y >= 1f - threshold)
+        {
+            boundsCheckResult.AtNorthEdge = true;
+        }
+
+        if (point.y <= 0f + threshold)
+        {
+            boundsCheckResult.AtSouthEdge = true;
+        }
+
+        if (point.x <= 0f + threshold)
+        {
+            boundsCheckResult.AtEastEdge = true;
+        }
+
+        if (point.x >= 1f - threshold)
+        {
+            boundsCheckResult.AtWestEdge = true;
+        }
+
+        return boundsCheckResult;
+
+    }
+
     [System.Serializable]
     public class Surface
     {

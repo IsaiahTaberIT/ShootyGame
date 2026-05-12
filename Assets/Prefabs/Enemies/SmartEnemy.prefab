@@ -378,6 +378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f73a26e64782814db0823529e5cf0b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  PointsAddedOnDeath: 10
   Index: 0
   Renderer: {fileID: 3075978109116216138}
   DeathParticles: {fileID: 5278555580731952468}
@@ -394,12 +395,12 @@ MonoBehaviour:
   Damage: 10
   NormailzedPosition: {x: 0, y: 0, z: 0}
   Speed: 0
+  SelfBody: {fileID: 0}
   BaseStats: {fileID: 11400000, guid: 645b208db61bcb840a8ba77154fc4d67, type: 2}
   TestPointSize: 1
   p1: {x: 0, y: 0, z: 0}
   p2: {x: 0, y: 0, z: 0}
   LockedZ: 1
-  SelfBody: {fileID: 0}
   MoveDir: {x: 0, y: 1}
   BaseMoveDir: {x: 0, y: 1}
   StrafeDir: 0

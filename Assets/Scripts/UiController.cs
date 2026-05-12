@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using TMPro;
 using UnityEngine;
@@ -10,21 +11,37 @@ public class UiController : MonoBehaviour
     public MonoBehaviour TargetClass;
     public string TargetVariableName;
     public UnityEngine.Object UIComponent;
-
-
-
-
+    private FieldInfo Info;
 
     public void UpdateUiValue()
     {
+
         System.Type type = TargetClass.GetType();
-        FieldInfo info = type.GetField(TargetVariableName);
+
+        if (Info == null)
+        {
+            Info = type.GetField(TargetVariableName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+        }
 
         if (UIComponent is TextMeshProUGUI t)
         {
             string value;
 
-            value = BaseText.InsertOnCode(ReplaceCode, info.GetValue(TargetClass).ToString());
+            if (!TargetClass)
+            {
+                Debug.Log("No Target Class Reference");
+                return;
+
+            }
+
+            if (Info == null)
+            {
+                Debug.Log("Target Class Does Not Have Requested Field");
+                return;
+            }
+
+
+            value = BaseText.InsertOnCode(ReplaceCode, Info.GetValue(TargetClass).ToString());
 
             t.text = value;
         }

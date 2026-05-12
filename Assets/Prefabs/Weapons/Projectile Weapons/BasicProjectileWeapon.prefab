@@ -328,7 +328,7 @@ MonoBehaviour:
   BaseExplosionSize: 0.04
   ExplosionParticles: {fileID: 3162948648168173435, guid: 5a1c9997eb6515c4fa2de35afde2d187, type: 3}
   ShockWaveParticles: {fileID: 11400000, guid: 5a8b472ebe6e7014db62e4aa51a40e78, type: 2}
-  ShockWaveScale: 0.75
+  ShockWaveScale: 0.15
   ExplosionDamage: 0
   DetectionRange: 5
   ExplosionRadius: 20

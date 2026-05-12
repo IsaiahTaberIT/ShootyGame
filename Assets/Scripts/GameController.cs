@@ -10,6 +10,8 @@ using static GameController;
 
 public class GameController : MonoBehaviour
 {
+    [SerializeField] private UnityEvent OnPointsUpdated;
+
     public AudioSource GlobalAudioSource;
     public InputActionReference LookAction;
 
@@ -20,10 +22,22 @@ public class GameController : MonoBehaviour
     public static Action OnFixedUpdateUnPaused = () => { };
     public static Action OnUpdateUnPaused = () => { };
 
-  public bool EnemyArrayFull => (AvailablePtr < 0);
+    public int Points;
 
-  public PlayerController Player_Ref;
-  public static GameController Controller;
+    public void AddPoints(int points)
+    {
+        Points += points;
+        OnPointsUpdated.Invoke();
+
+    }
+
+
+    public bool EnemyArrayFull => (AvailablePtr < 0);
+    [SerializeField] private PlayerController _Player_Ref;
+    public PlayerController Player_Ref => (_Player_Ref == null) ? _Player_Ref = GameObject.FindAnyObjectByType<PlayerController>() : _Player_Ref;
+    private static GameController _Controller;
+
+    public static GameController Controller => (_Controller == null) ? _Controller = GameObject.FindAnyObjectByType<GameController>() : _Controller;
   public Spawner Spawner_Ref;
   public WorldBounds Bounds;
   public Camera MainCamera_Ref;
@@ -259,11 +273,12 @@ public class GameController : MonoBehaviour
     void Init()
     {
         GlobalAudioSource = GetComponent<AudioSource>();
-        Controller = this;
+        _Controller = this;
         MainCamera_Ref = Camera.main;
 
       
     }
+
 
 
     private void Awake()
