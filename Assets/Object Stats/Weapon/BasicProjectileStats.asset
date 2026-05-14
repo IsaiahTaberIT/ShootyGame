@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BasicProjectileStats
   m_EditorClassIdentifier: Assembly-CSharp::WeaponBaseStats
   _Damage: 5
-  _UseTime: 0.05
+  _UseTime: 0.25
   _KnockBackPower: 5000
   _Pierce: 51.76
-  _Speed: 100
+  _Speed: 10

@@ -17,6 +17,7 @@ public static class Logic
             {
                 if (baseString[i + j] != code[j])
                 {
+                    
                     break;
                 }
 

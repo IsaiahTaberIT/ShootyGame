@@ -186,14 +186,15 @@ MonoBehaviour:
   KnockBackPower: 600
   BaseExplosionSize: 0.04
   ExplosionParticles: {fileID: 3162948648168173435, guid: 5a1c9997eb6515c4fa2de35afde2d187, type: 3}
-  ShockWaveParticles: {fileID: 1644169616946912347, guid: 163b9ff8e47eafd4b9123ee5452742a4, type: 3}
-  ExplosionDamage: 10
-  DetectionRange: 3
-  ExplosionRadius: 10
+  ShockWaveParticles: {fileID: 11400000, guid: 5a8b472ebe6e7014db62e4aa51a40e78, type: 2}
+  ShockWaveScale: 0.15
+  ExplosionDamage: 5
+  DetectionRange: 5
+  ExplosionRadius: 20
   OnlyDetonateOnImpact: 0
   ContactFilter:
     useTriggers: 1
-    useLayerMask: 0
+    useLayerMask: 1
     useDepth: 0
     useOutsideDepth: 0
     useNormalAngle: 0
@@ -210,3 +211,4 @@ MonoBehaviour:
   ExplosionDetonationRegion: {fileID: 0}
   EDRChildIndex: 1
   Children: []
+  ExplosionSound: {fileID: 11400000, guid: 5215827c48a647141afcc2bd305f1731, type: 2}

@@ -55,7 +55,7 @@ public class ExplosionModule : ProjectileModule
         {
             GameObject particles = Instantiate(ExplosionParticles.gameObject, transform.position, Quaternion.identity);
 
-            particles.transform.localScale = Vector3.one * ExplosionRadius * BaseExplosionSize;
+            particles.transform.localScale = BaseExplosionSize * ExplosionRadius * Vector3.one;
 
 
         }

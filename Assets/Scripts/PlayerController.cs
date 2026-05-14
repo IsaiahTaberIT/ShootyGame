@@ -232,8 +232,6 @@ public class PlayerController : MonoBehaviour
         RaycastHit hitinfo;
         Vector3 spawnPos = transform.position;
         Vector3 dir = transform.position - o;
-        Vector3 correction = dir.normalized;
-        float correctionMag = 2f;
 
 
         //because I can't be fucked to compute the vector math to get the properly aligned spawnpoint for the projectile
@@ -241,7 +239,7 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(o, dir, out hitinfo, 10000f, GameController.Controller.Bounds.PlaySurfaceLayer))
         {
-            spawnPos = hitinfo.point - correction * correctionMag;
+            spawnPos = hitinfo.point;
         }
 
         WorldBounds.Surface playarea = GameController.Controller.Bounds.PlayArea;
